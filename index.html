@@ -2,6 +2,55 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script>
+/* IMAGE RESILIENCE — retry on error with cache-bust */
+(function() {
+  function fixImages() {
+    document.querySelectorAll('img').forEach(function(img) {
+      // Retry automatique si l'image échoue à charger
+      if (!img.dataset.retrying) {
+        img.onerror = function() {
+          if (!this.dataset.retries) this.dataset.retries = 0;
+          var retries = parseInt(this.dataset.retries);
+          if (retries < 3) {
+            this.dataset.retries = retries + 1;
+            var self = this;
+            var originalSrc = this.src.split('?_t=')[0];
+            setTimeout(function() {
+              self.src = originalSrc + '?_t=' + Date.now();
+            }, 500 * (retries + 1));
+          }
+        };
+        img.dataset.retrying = '1';
+        // Si déjà cassée au chargement
+        if (img.complete && img.naturalHeight === 0 && img.src) {
+          img.dispatchEvent(new Event('error'));
+        }
+      }
+    });
+  }
+  // Au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fixImages);
+  } else {
+    fixImages();
+  }
+  // Observer pour les images ajoutées dynamiquement (carousel drones)
+  if (window.MutationObserver) {
+    new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(n) {
+          if (n.tagName === 'IMG') fixImages();
+          if (n.querySelectorAll) n.querySelectorAll('img').forEach(function() { fixImages(); });
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+})();
+</script>
 <script>
 /* SAFARI BFCACHE FIX — force full reload on back/forward navigation */
 window.addEventListener('unload', function(){});
@@ -1387,7 +1436,16 @@ img { max-width: 100%; height: auto; }
   #adn { padding: 48px 18px !important; }
   .adn-layout-new { grid-template-columns: 1fr !important; }
   .adn-stats { grid-template-columns: 1fr 1fr !important; }
-  .adn-founders-new { grid-template-columns: 1fr 1fr !important; }
+  .adn-founders-new { 
+    grid-template-columns: 1fr !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+  }
+  .founder-img, .founder-img > div[style] {
+    width: 100% !important;
+    aspect-ratio: 4/5 !important;
+    height: auto !important;
+  }
 
   /* Formation */
   #formation { padding: 48px 18px !important; }
