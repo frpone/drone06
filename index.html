@@ -1,0 +1,2849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<script>
+/* SAFARI BFCACHE FIX — force full reload on back/forward navigation */
+window.addEventListener('unload', function(){});
+window.addEventListener('pageshow', function(e){
+  if(e.persisted){ window.location.reload(); }
+});
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone06 — L'excellence aérienne au service de l'image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* =====================
+   DESIGN SYSTEM / CHARTE
+   ===================== */
+:root {
+  /* Colors */
+  --c-black:    #0A0A0A;
+  --c-dark:     #111111;
+  --c-white:    #FFFFFF;
+  --c-off:      #F4F3EF;
+  --c-blue:     #0052FF;
+  --c-blue-dim: rgba(0,82,255,0.12);
+  --c-grey:     #6B6B6B;
+  --c-line:     rgba(0,0,0,0.08);
+  --c-line-w:   rgba(255,255,255,0.08);
+
+  /* Typography */
+  --font: 'Manrope', sans-serif;
+
+  /* Radius */
+  --r-img: 20px;
+  --r-btn: 10px;
+  --r-card: 18px;
+
+  /* Spacing */
+  --pad-x: 60px;
+  --pad-section: 120px;
+
+  /* Transition */
+  --t: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  background: var(--c-off);
+  color: var(--c-black);
+  overflow-x: clip;
+  cursor: none;
+}
+
+/* ====== CURSOR ====== */
+/* cursor: auto fallback supprimé — cursor:none actif */
+.cursor-dot {
+  position: fixed; width: 10px; height: 10px;
+  background: var(--c-blue); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  top: 0; left: 0;
+  transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  box-shadow: 0 0 8px rgba(0,82,255,0.6);
+}
+.cursor-circle {
+  position: fixed; width: 38px; height: 38px;
+  border: 2px solid rgba(0,82,255,0.7); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  top: 0; left: 0;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s;
+}
+.cursor-dot.hovered  { width: 6px; height: 6px; }
+.cursor-circle.hovered { width: 56px; height: 56px; border-color: var(--c-blue); }
+
+/* ====== UNIFIED BUTTON ====== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 13px 28px;
+  border-radius: var(--r-btn);
+  border: none;
+  cursor: pointer;
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+  white-space: nowrap;
+}
+.btn-solid {
+  background: var(--c-blue);
+  color: var(--c-white);
+}
+.btn-solid:hover {
+  background: #1A6AFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,82,255,0.3);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--c-white);
+  border: 1.5px solid rgba(255,255,255,0.35);
+}
+.btn-outline:hover {
+  border-color: var(--c-white);
+  background: rgba(255,255,255,0.06);
+}
+.btn-outline-dark {
+  background: transparent;
+  color: var(--c-black);
+  border: 1.5px solid rgba(0,0,0,0.2);
+}
+.btn-outline-dark:hover {
+  border-color: var(--c-blue);
+  color: var(--c-blue);
+}
+.btn svg { flex-shrink: 0; }
+
+/* ====== NAVBAR ====== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 0 var(--pad-x);
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: transparent;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 32px; height: 32px;
+}
+.nav-logo-text {
+  font-size: 17px; font-weight: 800; color: var(--c-white);
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 700;
+  color: rgba(255,255,255,0.82);
+  text-decoration: none; letter-spacing: 0.01em;
+  transition: color var(--t);
+}
+.nav-links a:hover { color: var(--c-white); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+
+/* ====== SECTION HELPERS ====== */
+.s-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--c-blue);
+  margin-bottom: 18px;
+}
+.s-label::before {
+  content: ''; display: block;
+  width: 22px; height: 2px; background: var(--c-blue);
+  border-radius: 2px;
+}
+h1, h2, h3 { font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
+
+/* ====== TYPO ANIMATION — géré entièrement en JS ====== */
+
+/* Cinematic image container */
+.cine-img {
+  width: 100%; overflow: hidden;
+  border-radius: var(--r-img);
+  position: relative;
+}
+.cine-img img, .cine-img .ph {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center center;
+}
+.cine-img:hover img,
+.cine-img:hover .ph { transform: scale(1.06); }
+.cine-img .ph {
+  display: flex; align-items: flex-end; padding: 20px;
+}
+.ph-cap {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Placeholder gradients */
+.ph-sky    { background: linear-gradient(150deg, #0A1220 0%, #0D1A2E 50%, #08111C 100%); }
+.ph-coast  { background: linear-gradient(160deg, #0A1530 0%, #0D2040 30%, #061020 70%, #05090F 100%); }
+.ph-infra  { background: linear-gradient(145deg, #141414 0%, #0A0A0A 100%); }
+.ph-fire   { background: linear-gradient(145deg, #1A0800 0%, #0D0500 100%); }
+.ph-dark   { background: linear-gradient(145deg, #0D0D0D 0%, #080808 100%); }
+.ph-field  { background: linear-gradient(145deg, #0A1020 0%, #050A14 100%); }
+.ph-evtol  { background: radial-gradient(ellipse at 60% 40%, #0A1025 0%, #050810 100%); }
+.ph-3d     { background: linear-gradient(135deg, #080C18 0%, #050810 100%); }
+
+/* Reveal — toujours visible */
+.rv, .rv.on { opacity: 1; transform: none; }
+.rv-d1, .rv-d2, .rv-d3, .rv-d4 {}
+
+/* =====================
+   BLOC 1 — HERO
+   ===================== */
+.hero {
+  position: relative; z-index: 1; height: 100vh; min-height: 700px;
+  background: var(--c-black);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 90% 70% at 55% 35%, #091428 0%, #050810 60%, #040608 100%);
+}
+.hero-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+.hero-glow {
+  position: absolute;
+  bottom: 20%; left: 0; right: 0; height: 300px;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(0,82,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.15) 50%, rgba(10,10,10,0.55) 100%);
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px var(--pad-x) 72px;
+}
+.hero-logo-big {
+  width: 120px; height: 120px;
+  flex-shrink: 0;
+}
+.hero-logo-big img {
+  width: 100%; height: 100%; object-fit: contain;
+}
+.hero-body {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 40px;
+  align-items: flex-end;
+}
+.hero-title {
+  font-size: clamp(44px, 6.5vw, 92px);
+  color: var(--c-white);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.hero-title em { font-style: normal; color: var(--c-blue); }
+.hero-meta {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 24px;
+  padding-bottom: 4px;
+}
+.hero-sub {
+  font-size: 16px; font-weight: 600;
+  line-height: 1.75; color: rgba(255,255,255,0.82);
+  text-align: right;
+}
+.hero-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+.hero-scroll-hint {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.hero-scroll-hint span {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.scroll-bar {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  animation: barAnim 2.2s ease-in-out infinite;
+}
+@keyframes barAnim {
+  0%,100% { opacity: 0.3; transform: scaleY(1) translateY(0); }
+  50% { opacity: 0.8; transform: scaleY(0.6) translateY(8px); }
+}
+
+/* =====================
+   BLOC VIDÉO — fullpage loop
+   ===================== */
+.bloc-video {
+  position: relative;
+  width: 100%; height: 100vh;
+  background: var(--c-black);
+  overflow: hidden;
+}
+.video-wrap {
+  position: absolute; inset: 0;
+}
+/* Simulated video: animated gradient that mimics aerial footage */
+.video-sim {
+  position: absolute; inset: 0;
+  background: linear-gradient(145deg, #050C1A 0%, #08142A 30%, #040A16 60%, #050810 100%);
+  animation: videoSim 8s ease-in-out infinite alternate;
+}
+@keyframes videoSim {
+  0%   { background-position: 0% 0%; filter: brightness(1); }
+  25%  { background-position: 30% 20%; filter: brightness(1.08); }
+  50%  { background-position: 60% 40%; filter: brightness(0.95); }
+  75%  { background-position: 40% 70%; filter: brightness(1.05); }
+  100% { background-position: 0% 100%; filter: brightness(1); }
+}
+/* Floating light streaks */
+.video-sim::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 60%, rgba(0,82,255,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 70% 30%, rgba(0,82,255,0.04) 0%, transparent 60%);
+  animation: videoGlow 8s ease-in-out infinite alternate;
+}
+@keyframes videoGlow {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+/* Grid scan lines */
+.video-scanlines {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255,255,255,0.008) 3px,
+    rgba(255,255,255,0.008) 4px
+  );
+}
+.video-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.15) 40%, rgba(10,10,10,0.25) 100%);
+}
+.video-content {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 0 var(--pad-x);
+}
+.video-caption {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+}
+.video-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800; letter-spacing: -0.04em;
+  color: var(--c-white); line-height: 1.05;
+  margin-bottom: 24px;
+}
+.video-title em { font-style: normal; color: var(--c-blue); }
+.video-play-pulse {
+  animation: videoPulse 1s ease-in-out infinite;
+}
+@keyframes videoPulse {
+  0%,100% { color: #ffffff; }
+  50% { color: var(--c-blue); }
+}
+.video-play {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55); text-decoration: none;
+  margin-top: 12px;
+  transition: color var(--t);
+}
+.video-play:hover { color: var(--c-white); }
+.play-ring {
+  width: 52px; height: 52px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color var(--t), background var(--t);
+}
+.video-play:hover .play-ring { border-color: var(--c-blue); background: var(--c-blue-dim); }
+.play-triangle {
+  width: 0; height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 12px solid white;
+  margin-left: 2px;
+}
+/* Corners HUD */
+.hud-corner {
+  position: absolute; width: 20px; height: 20px;
+  border-color: rgba(0,82,255,0.4); border-style: solid;
+}
+.hud-tl { top: 32px; left: 32px; border-width: 1.5px 0 0 1.5px; }
+.hud-tr { top: 32px; right: 32px; border-width: 1.5px 1.5px 0 0; }
+.hud-bl { bottom: 32px; left: 32px; border-width: 0 0 1.5px 1.5px; }
+.hud-br { bottom: 32px; right: 32px; border-width: 0 1.5px 1.5px 0; }
+.hud-info {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(0,82,255,0.5);
+}
+
+/* =====================
+   BLOC 3 — IMAGE CINÉ
+   ===================== */
+/* =====================
+   BLOC EXPERTISES (ex cine)
+   ===================== */
+.bloc-cine {
+  background: var(--c-off);
+  position: relative;
+  padding: var(--pad-section) var(--pad-x);
+}
+.cine-header {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: end;
+  margin-bottom: 60px;
+}
+.cine-h2 {
+  font-size: clamp(38px, 5vw, 64px);
+  color: var(--c-black);
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+}
+.cine-h2 em { font-style: normal; color: var(--c-blue); }
+.cine-right {
+  padding-bottom: 8px;
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 0;
+}
+.cine-sub {
+  font-size: 16px; font-weight: 400;
+  line-height: 1.8; color: var(--c-grey);
+  border-left: 2px solid var(--c-blue);
+  padding-left: 20px;
+}
+/* Grille 4 cartes expertises */
+.expertises-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.expertise-card {
+  position: relative;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--c-black);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.expertise-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+}
+.expertise-card-img {
+  width: 100%; aspect-ratio: 4/3;
+  overflow: hidden;
+  display: block;
+}
+.expertise-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.6s ease;
+}
+.expertise-card:hover .expertise-card-img img { transform: scale(1.05); }
+/* Placeholder gradient pour les images manquantes */
+.expertise-card-img .ph-card { width:100%; height:100%; display:block; }
+.ph-card-1 { background: linear-gradient(150deg,#0A1A30 0%,#061020 100%); }
+.ph-card-2 { background: linear-gradient(150deg,#080C18 0%,#050810 100%); }
+.ph-card-3 { background: linear-gradient(150deg,#0D0D0D 0%,#080808 100%); }
+.ph-card-4 { background: linear-gradient(150deg,#0A0505 0%,#050808 100%); }
+.expertise-card-body {
+  padding: 20px 22px 24px;
+  background: var(--c-white);
+}
+.expertise-card-num {
+  font-family: var(--font);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--c-blue); margin-bottom: 6px;
+}
+.expertise-card-title {
+  font-family: var(--font);
+  font-size: 18px; font-weight: 800;
+  letter-spacing: -0.02em; color: var(--c-black);
+  line-height: 1.2;
+}
+.expertise-card-arrow {
+  position: absolute; bottom: 22px; right: 22px;
+  width: 28px; height: 28px;
+  background: var(--c-blue); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.expertise-card:hover .expertise-card-arrow { opacity: 1; transform: translateX(0); }
+.expertise-card-arrow svg { width: 12px; height: 12px; }
+.cine-tag {
+  position: absolute; top: 14px; left: 14px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.45);
+  padding: 4px 10px; border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+/* =====================
+   BLOC 4 — PRISE DE VUE
+   ===================== */
+.bloc-vue {
+  background: var(--c-black);
+  padding: var(--pad-section) var(--pad-x);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.vue-text .s-label { /* inherited */ }
+.vue-h2 {
+  font-size: clamp(36px, 4.5vw, 60px);
+  color: var(--c-white); margin-bottom: 20px;
+}
+.vue-h2 em { font-style: normal; color: var(--c-blue); }
+.vue-p {
+  font-size: 15px; font-weight: 400; line-height: 1.8;
+  color: rgba(255,255,255,0.6); margin-bottom: 28px;
+}
+.vue-services {
+  list-style: none; display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 36px;
+}
+.vue-services li {
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  display: flex; align-items: center; gap: 8px;
+  letter-spacing: 0.02em;
+  transition: color var(--t);
+}
+.vue-services li:hover { color: rgba(255,255,255,0.85); }
+.vue-services li::before {
+  content: ''; display: block;
+  width: 5px; height: 5px;
+  border-radius: 50%; background: var(--c-blue);
+  flex-shrink: 0;
+}
+.vue-quote {
+  font-size: 15px; font-style: normal; font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  border-left: none;
+  padding-left: 0; margin-bottom: 36px;
+  line-height: 1.8;
+}
+.vue-img-stack {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.vue-img-big .cine-img { aspect-ratio: 16/9; }
+.vue-img-small .cine-img { aspect-ratio: 16/9; }
+
+/* Drone image + bouton bas de colonne */
+.vue-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
+.vue-drone-wrap {
+  position: relative;
+  width: 100%;
+  margin-top: -20px; /* légère remontée pour superposition */
+  pointer-events: none;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+.vue-drone-img {
+  width: 380px;
+  object-fit: contain;
+  filter: brightness(0.92) contrast(1.05);
+  mix-blend-mode: lighten;
+  transform: scaleX(-1); /* drone regardant vers la droite */
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+.vue-drone-img:hover {
+  transform: scaleX(-1) translateX(-8px);
+  filter: brightness(1.05) contrast(1.08);
+}
+
+/* =====================
+   BLOC 5 — PHOTOGRAMMÉTRIE
+   ===================== */
+.bloc-photo {
+  background: var(--c-off);
+  padding: var(--pad-section) var(--pad-x);
+}
+.photo-header {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: end; margin-bottom: 60px;
+}
+.photo-h2 {
+  font-size: clamp(36px, 4.5vw, 60px);
+  color: var(--c-black);
+}
+.photo-p {
+  font-size: 16px; font-weight: 400;
+  line-height: 1.8; color: var(--c-grey);
+  margin-bottom: 28px;
+}
+/* Stats row */
+.stats-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 12px;
+}
+.stat-card {
+  background: var(--c-black);
+  border-radius: var(--r-card);
+  padding: 22px 32px;
+  position: relative; overflow: hidden;
+  transition: transform var(--t);
+}
+.stat-card:hover { transform: translateY(-4px); }
+.stat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--c-blue), transparent);
+}
+.stat-label-top {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--c-blue); margin-bottom: 8px;
+}
+.stat-n {
+  font-size: 52px; font-weight: 800;
+  color: var(--c-white); letter-spacing: -0.04em;
+  line-height: 1; margin-bottom: 6px;
+}
+.stat-n sup { font-size: 22px; color: var(--c-blue); vertical-align: super; margin-left: 10px; }
+.stat-l {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+/* Tech cards */
+.tech-row {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 12px; margin-bottom: 48px;
+}
+.tech-c {
+  background: var(--c-white);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t);
+}
+.tech-c-full {
+  margin-bottom: 12px;
+}
+.tech-c-full .tech-c-img {
+  aspect-ratio: 21/9;
+  overflow: hidden;
+}
+.tech-c-full .tech-c-body {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+}
+.tech-c-full .tech-c-num {
+  margin-bottom: 0;
+}
+.tech-c:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+.tech-c-img { aspect-ratio: 16/9; overflow: hidden; }
+.tech-c-img .cine-img { border-radius: 0; }
+.tech-c-body { padding: 24px; }
+.tech-c-num {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.2em; color: var(--c-blue);
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.tech-c-title {
+  font-size: 17px; font-weight: 800;
+  color: var(--c-black); letter-spacing: -0.02em;
+}
+.photo-cta-row {
+  display: flex; justify-content: space-between;
+  align-items: center; padding-top: 40px;
+  border-top: 1px solid var(--c-line);
+}
+.photo-cta-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(0,0,0,0.2);
+}
+
+/* =====================
+   BLOC 6 — SÉCURITÉ
+   ===================== */
+.bloc-secu {
+  background: var(--c-black);
+  padding: var(--pad-section) var(--pad-x);
+  position: relative; overflow: hidden;
+}
+.secu-watermark {
+  position: absolute; right: -40px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 240px; font-weight: 800;
+  letter-spacing: -0.05em; text-transform: uppercase;
+  color: rgba(255,255,255,0.018);
+  pointer-events: none; white-space: nowrap;
+  user-select: none;
+}
+.secu-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+  position: relative; z-index: 1;
+}
+.secu-h2 {
+  font-size: clamp(36px, 4.5vw, 60px);
+  color: var(--c-white); margin-bottom: 20px;
+}
+.secu-p {
+  font-size: 15px; font-weight: 400; line-height: 1.8;
+  color: rgba(255,255,255,0.6); margin-bottom: 36px;
+}
+.secu-img-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.secu-img-col .cine-img { aspect-ratio: 2/3; }
+.secu-img-col:first-child .cine-img { aspect-ratio: 2/3; }
+
+/* =====================
+   BLOC 7 — DR-06
+   ===================== */
+.bloc-dr06 {
+  position: relative; min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--c-black); overflow: hidden;
+}
+.dr06-bg-grad {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 80% at 20% 50%, rgba(0,82,255,0.06) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+.dr06-text {
+  position: relative; z-index: 2;
+  padding: var(--pad-section) var(--pad-x);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.dr06-img-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  padding: 60px 60px 60px 20px;
+}
+.dr06-img-wrap img {
+  width: 100%; height: 100%;
+  max-height: 85vh;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+}
+.dr06-h2 {
+  font-size: clamp(60px, 9vw, 120px);
+  color: var(--c-white); letter-spacing: -0.05em;
+  line-height: 0.92; margin-bottom: 10px;
+}
+.dr06-h2 em { font-style: normal; color: var(--c-blue); }
+.dr06-sub {
+  font-size: 16px; font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-bottom: 10px;
+}
+.dr06-tagline {
+  font-size: 18px; font-style: italic; font-weight: 300;
+  color: rgba(255,255,255,0.25); margin-bottom: 28px;
+}
+.dr06-p {
+  font-size: 15px; font-weight: 400; line-height: 1.8;
+  color: rgba(255,255,255,0.6); max-width: 460px; margin-bottom: 20px;
+}
+.dr06-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 44px;
+}
+.dr06-tag {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  padding: 7px 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+}
+
+/* =====================
+   BLOC 8 — ADN
+   ===================== */
+.bloc-adn {
+  background: var(--c-off);
+  padding: var(--pad-section) var(--pad-x);
+}
+.adn-top {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start; margin-bottom: 48px;
+}
+/* Nouvelle mise en page ADN : texte gauche + photos droite */
+.adn-layout-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.adn-text-col { display: flex; flex-direction: column; }
+.adn-photos-col {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.adn-founders-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.adn-h2 {
+  font-size: clamp(38px, 5vw, 68px);
+  color: var(--c-black);
+}
+.adn-h2 em { font-style: normal; color: var(--c-blue); }
+.adn-p {
+  font-size: 16px; font-weight: 400; line-height: 1.8;
+  color: var(--c-grey); margin-bottom: 18px;
+}
+.adn-stats {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+}
+.adn-stat {
+  background: var(--c-white);
+  border-radius: var(--r-card); padding: 36px 28px;
+  border: 1px solid var(--c-line);
+  transition: transform var(--t), box-shadow var(--t);
+}
+.adn-stat:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+.adn-sn {
+  font-size: 44px; font-weight: 800;
+  color: var(--c-blue); letter-spacing: -0.03em;
+  line-height: 1; margin-bottom: 6px;
+}
+.adn-sl {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(0,0,0,0.35);
+}
+
+/* =====================
+   BLOC 9 — FORMATION
+   ===================== */
+.bloc-formation {
+  background: var(--c-black);
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 600px; overflow: hidden;
+  align-items: center;
+}
+.form-img {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-black);
+}
+.form-img .cine-img {
+  height: auto; border-radius: var(--r-img);
+  aspect-ratio: 4/5;
+  margin: 40px;
+}
+.form-text {
+  padding: 100px 72px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.form-h2 {
+  font-size: clamp(36px, 4.5vw, 60px);
+  color: var(--c-white); margin-bottom: 12px;
+}
+.form-pitch {
+  font-size: 18px; font-weight: 300;
+  color: var(--c-blue); margin-bottom: 24px;
+  font-style: italic;
+}
+.form-p {
+  font-size: 15px; font-weight: 400; line-height: 1.8;
+  color: rgba(255,255,255,0.6); margin-bottom: 12px;
+}
+
+/* =====================
+   BLOC 10 — CONTACT
+   ===================== */
+.bloc-contact {
+  background: var(--c-black);
+  position: relative; overflow: hidden;
+  padding: 140px var(--pad-x);
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+}
+.contact-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,82,255,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.contact-h2 {
+  font-size: clamp(44px, 7vw, 96px);
+  color: var(--c-white); margin-bottom: 24px;
+  position: relative; z-index: 1;
+}
+.contact-sub {
+  font-size: 16px; font-weight: 400;
+  color: rgba(255,255,255,0.55); max-width: 500px;
+  line-height: 1.75; margin-bottom: 48px;
+  position: relative; z-index: 1;
+}
+/* Divider line */
+.contact-line {
+  position: absolute; top: 0; left: var(--pad-x); right: var(--pad-x);
+  height: 1px; background: rgba(255,255,255,0.06);
+}
+
+/* =====================
+   FOOTER
+   ===================== */
+footer {
+  background: #060606;
+  padding: 36px var(--pad-x);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.ft-logo {
+  font-size: 16px; font-weight: 800;
+  color: rgba(255,255,255,0.45); letter-spacing: -0.01em;
+}
+.ft-logo span { color: var(--c-blue); }
+.ft-copy {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; color: rgba(255,255,255,0.18);
+}
+.ft-links { display: flex; gap: 24px; }
+.ft-links a {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; color: rgba(255,255,255,0.2);
+  text-decoration: none; transition: color var(--t);
+}
+.ft-links a:hover { color: rgba(255,255,255,0.6); }
+
+/* ====== MODAL SHOWREEL ====== */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,0.95);
+  align-items: center; justify-content: center;
+  animation: modalIn 0.3s ease forwards;
+}
+.modal-overlay.open { display: flex; }
+@keyframes modalIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.modal-inner {
+  position: relative;
+  width: 90vw;
+  max-width: 1200px;
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+}
+.modal-inner video {
+  width: 100%; height: 100%;
+  object-fit: contain; display: block;
+}
+.modal-close {
+  position: fixed; top: 28px; right: 36px;
+  font-family: var(--font);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 30px;
+  padding: 10px 20px;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  z-index: 10001;
+}
+.modal-close:hover { color: #fff; background: rgba(0,82,255,0.7); border-color: var(--c-blue); }
+.modal-close::before {
+  content: '✕';
+  font-size: 13px;
+}
+.modal-loader {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.modal-loader.hidden { opacity: 0; }
+.loader-ring {
+  width: 48px; height: 48px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-top-color: var(--c-blue);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Fondateurs */
+.adn-founders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 60px;
+  max-width: 600px;
+}
+.founder-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.founder-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 16px;
+  position: relative;
+}
+.founder-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.founder-card:hover .founder-img img { transform: scale(1.04); }
+.founder-name {
+  margin-top: 16px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-black);
+}
+.founder-role {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--c-grey);
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* =====================
+   BLOC GLOBE CTA
+   ===================== */
+.bloc-globe-cta {
+  position: relative;
+  min-height: 580px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--c-black);
+}
+/* Image de fond pleine largeur */
+.globe-cta-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.globe-cta-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+}
+/* Fondu noir — gauche dense, droite et bords perdus */
+.globe-cta-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to left,
+      rgba(10,10,10,0.45) 0%,
+      rgba(10,10,10,0.0) 30%
+    );
+}
+.globe-cta-text {
+  position: relative;
+  z-index: 1;
+  padding: 40px var(--pad-x) 80px;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.globe-cta-h2 {
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  color: var(--c-white);
+  margin-bottom: 8px;
+}
+.globe-cta-h2 em { font-style: normal; color: var(--c-blue); }
+.globe-cta-p {
+  font-size: 15px; font-weight: 500;
+  line-height: 1.8; color: rgba(255,255,255,0.80);
+  margin-bottom: 36px; max-width: 420px;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+.globe-cta-stats {
+  display: flex; gap: 36px; margin-bottom: 44px;
+}
+.globe-cta-stat-n {
+  font-size: 38px; font-weight: 800;
+  letter-spacing: -0.03em; color: var(--c-blue);
+  line-height: 1;
+}
+.globe-cta-stat-l {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25); margin-top: 4px;
+}
+.btn-globe {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; text-decoration: none;
+  padding: 14px 32px; border-radius: var(--r-btn);
+  background: var(--c-blue); color: var(--c-white);
+  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+}
+.btn-globe:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,82,255,0.4);
+  background: #1A6AFF;
+}
+.btn-globe svg { flex-shrink: 0; display: none; }
+/* Globe preview visual */
+.globe-cta-visual {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.globe-preview {
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,207,255,0.15);
+  background: radial-gradient(ellipse 80% 80% at 40% 40%, rgba(0,207,255,0.08) 0%, rgba(0,20,40,0.8) 60%, rgba(4,8,15,0.95) 100%);
+  position: relative;
+  animation: globeRotate 20s linear infinite;
+  box-shadow: 0 0 60px rgba(0,207,255,0.08), inset 0 0 40px rgba(0,207,255,0.04);
+}
+@keyframes globeRotate {
+  from { box-shadow: 0 0 60px rgba(0,207,255,0.08), inset 0 0 40px rgba(0,207,255,0.04), -20px 0 40px rgba(0,207,255,0.06); }
+  50%  { box-shadow: 0 0 60px rgba(0,207,255,0.12), inset 0 0 40px rgba(0,207,255,0.06), 20px 0 40px rgba(0,207,255,0.08); }
+  to   { box-shadow: 0 0 60px rgba(0,207,255,0.08), inset 0 0 40px rgba(0,207,255,0.04), -20px 0 40px rgba(0,207,255,0.06); }
+}
+.globe-preview-ring {
+  position: absolute; inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,207,255,0.08);
+}
+.globe-preview-ring2 {
+  position: absolute; inset: -28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,207,255,0.04);
+}
+/* Destination dots on preview globe */
+.globe-dot {
+  position: absolute; width: 8px; height: 8px;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,207,255,0.9), 0 0 16px rgba(0,207,255,0.4);
+}
+.globe-dot::after {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; border: 1px solid rgba(0,207,255,0.4);
+  animation: dotPulse 2.5s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.8); opacity: 0; }
+}
+.globe-label {
+  position: absolute;
+  font-family: var(--font); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(0,207,255,0.6); white-space: nowrap;
+  margin-top: 12px; left: 50%; transform: translateX(-50%);
+}
+/* Grid lines on globe preview */
+.globe-line-h {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: rgba(0,207,255,0.07);
+}
+.globe-line-v {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: rgba(0,207,255,0.07);
+}
+
+/* Scroll hint sections */
+.section-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 32px;
+}
+.section-scroll-hint span {
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.2);
+}
+.section-scroll-line {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(0,82,255,0.4), transparent);
+  animation: sectionScroll 2.2s ease-in-out infinite;
+}
+@keyframes sectionScroll {
+  0%,100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.9; transform: scaleY(0.6); }
+}
+
+<style>
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE MOBILE — v-final
+   ═══════════════════════════════════════════════════ */
+html, body { overflow-x: hidden; }
+img { max-width: 100%; height: auto; }
+
+/* Nav toujours noire sur mobile */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 16px !important;
+  }
+  
+  /* Hero */
+  .hero-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 88px 18px 48px !important;
+  }
+  .hero-body {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    justify-content: space-between !important;
+  }
+  .hero-title { font-size: clamp(28px, 9vw, 44px) !important; }
+  .hero-sub { font-size: 13px !important; max-width: 320px !important; }
+  .hero-meta { align-items: flex-start !important; }
+  .hero-btns { justify-content: flex-start !important; }
+  .hero-scroll-hint { display: none !important; }
+
+  /* ── HERO texte gauche ── */
+  .hero-inner { text-align: left !important; padding-left: 18px !important; padding-right: 18px !important; }
+  .hero-body { width: 100% !important; text-align: left !important; }
+  .hero-title { text-align: left !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+  .hero-sub { text-align: left !important; padding: 0 !important; }
+  .hero-meta { text-align: left !important; align-items: flex-start !important; width: 100% !important; }
+  .hero-btns { text-align: left !important; justify-content: flex-start !important; padding: 0 !important; }
+
+
+  /* Variables */
+  :root { --pad-x: 18px; --pad-section: 52px; }
+  body { font-size: 14px; }
+  p { font-size: 14px !important; line-height: 1.65 !important; }
+  h2 { font-size: clamp(22px, 7vw, 34px) !important; }
+
+  /* Bloc video */
+  .bloc-video { height: 70vh !important; }
+  .video-content { align-items: center !important; text-align: center !important; padding: 0 24px !important; }
+  .video-title { text-align: center !important; font-size: clamp(22px, 7vw, 32px) !important; }
+  .video-play { align-self: center !important; }
+
+  /* Cine */
+  .bloc-cine { padding: 48px 18px !important; }
+  .cine-header { grid-template-columns: 1fr !important; gap: 16px !important; margin-bottom: 24px !important; }
+  .expertises-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .expertise-card-img { overflow: hidden !important; line-height: 0 !important; }
+
+  /* Prise de vue */
+  #prise-de-vue { padding: 48px 18px !important; }
+  .bloc-vue { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .vue-services { grid-template-columns: 1fr !important; gap: 8px !important; }
+
+  /* Photogrammétrie */
+  #photogrammetrie { padding: 48px 18px !important; }
+  .photo-header { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .stats-row { grid-template-columns: 1fr 1fr !important; }
+  .tech-row { grid-template-columns: 1fr 1fr !important; }
+  .tech-c-full .tech-c-img { aspect-ratio: 16/9 !important; }
+  .stat-n { font-size: 48px !important; }
+  .stat-n sup { font-size: 20px !important; margin-left: 6px !important; }
+
+  /* Sécurité */
+  #securite { padding: 48px 18px !important; }
+  .secu-inner { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .secu-img-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Présence mondiale — layout mobile: tout en colonne, image au-dessus */
+  .bloc-globe-cta {
+    flex-direction: column !important;
+    min-height: auto !important;
+    align-items: stretch !important;
+  }
+  /* Image fond → devient bloc image normal en haut */
+  .globe-cta-bg {
+    position: relative !important;
+    inset: auto !important;
+    height: 220px !important;
+    flex-shrink: 0 !important;
+  }
+  .globe-cta-bg img {
+    object-position: center 40% !important;
+  }
+  .globe-cta-bg::after { display: none !important; }
+  /* Texte sous l'image, fond noir, plus d'overlay */
+  .globe-cta-text {
+    position: relative !important;
+    z-index: 1 !important;
+    background: var(--c-black) !important;
+    padding: 24px 18px 28px !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+  .globe-cta-h2 { font-size: clamp(22px, 7vw, 32px) !important; margin-bottom: 10px !important; }
+  .globe-cta-p { font-size: 13px !important; margin-bottom: 20px !important; line-height: 1.6 !important; }
+  .globe-cta-stats { gap: 24px !important; margin-bottom: 20px !important; }
+  .globe-cta-stat-n { font-size: 26px !important; }
+  .btn-globe { width: 100% !important; justify-content: center !important; }
+
+  /* Globe 3D */
+  #globe { height: 60vh !important; }
+  /* Compteurs globe mobile */
+  #globe > div[style*="bottom:60px"] { bottom: 12px !important; left: 12px !important; gap: 16px !important; }
+  #globe > div[style*="bottom:160px"] { bottom: 72px !important; left: 12px !important; }
+
+  /* DR-06 */
+  #dr06 { padding: 48px 18px !important; }
+  .bloc-dr06 { grid-template-columns: 1fr !important; }
+  .dr06-text { padding: 0 !important; }
+  .dr06-img-wrap { padding: 20px 0 !important; max-height: 240px !important; }
+  .dr06-img-wrap img { max-height: 220px !important; border-radius: 14px !important; object-fit: cover !important; }
+  .dr06-text .btn { margin-top: 20px !important; }
+
+  /* ADN */
+  #adn { padding: 48px 18px !important; }
+  .adn-layout-new { grid-template-columns: 1fr !important; }
+  .adn-stats { grid-template-columns: 1fr 1fr !important; }
+  .adn-founders-new { grid-template-columns: 1fr 1fr !important; }
+
+  /* Formation */
+  #formation { padding: 48px 18px !important; }
+  .bloc-formation { grid-template-columns: 1fr !important; }
+  .form-img { order: -1 !important; }
+  .form-img .cine-img { margin: 16px !important; border-radius: 14px !important; aspect-ratio: 16/9 !important; }
+  .form-text { padding: 20px 18px 32px !important; text-align: left !important; }
+
+  /* Contact */
+  #contact { padding: 60px 18px !important; }
+  .contact-line { flex-direction: column !important; gap: 12px !important; }
+  .contact-line .btn { width: 100% !important; justify-content: center !important; }
+
+  /* Footer */
+  footer { flex-direction: column !important; gap: 6px !important; text-align: center !important; padding: 24px 18px !important; }
+
+
+  /* ── Globe — mobile ── */
+  #globe-dest-list { display: none !important; }
+  #globe-tt { display: none !important; }
+  #globe {
+    height: 60vh !important;
+    overflow: hidden !important;
+  }
+  #globe-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  /* Compteurs globe en bas à gauche — réduire sur mobile */
+  #globe > div[style*="bottom:60px"] {
+    bottom: 16px !important;
+    left: 16px !important;
+    gap: 20px !important;
+  }
+  /* Hint drag */
+  #globe > div[style*="bottom:160px"] {
+    bottom: 70px !important;
+    left: 16px !important;
+  }
+  /* Lien retour en haut */
+  #globe > div[style*="padding:32px 60px"] {
+    padding: 16px !important;
+  }
+
+  
+  /* Curseur off */
+  .cursor-dot, .cursor-circle { display: none !important; }
+  /* Founder hint toujours visible sur mobile */
+  .founder-hint { opacity: 1 !important; color: #fff !important; transform: translateX(-50%) translateY(0) !important; }
+  body { cursor: auto !important; }
+}
+
+/* ══ HAMBURGER CSS-ONLY ══ */
+#nav-toggle { display: none; }
+.hamburger-label {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: 8px;
+}
+.hamburger-label span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-mobile-menu {
+  position: fixed;
+  top: 68px; left: 0; right: 0;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(20px);
+  padding: 0 18px;
+  z-index: 998;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.nav-mobile-menu a {
+  display: block;
+  font-size: 16px; font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font);
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+.nav-mobile-menu .m-cta { color: var(--c-blue); font-weight: 700; }
+
+/* Hamburger géré par JS simple */
+
+/* Nav compacte entre 700 et 1000px */
+@media (max-width: 1000px) {
+  .nav-links { gap: 16px !important; }
+  .nav-links a { font-size: 12px !important; }
+  .nav-right .btn-solid { padding: 10px 16px !important; font-size: 12px !important; }
+}
+
+/* Hamburger sous 700px */
+@media (max-width: 700px) {
+  .hamburger-label { display: flex !important; }
+  .nav-links { display: none !important; }
+  .nav-right .btn-solid { display: none !important; }
+  nav { background: rgba(10,10,10,0.97) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; }
+}
+
+/* ══ BIO MODAL ══ */
+.bio-modal-overlay {
+  position: fixed; inset: 0; z-index: 9500;
+  background: rgba(4,8,15,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 24px;
+}
+.bio-modal-overlay.open {
+  opacity: 1; pointer-events: all;
+}
+.bio-modal {
+  background: #0E1117;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  max-width: 860px; width: 100%;
+  display: grid; grid-template-columns: 280px 1fr;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  position: relative;
+}
+.bio-modal-overlay.open .bio-modal {
+  transform: translateY(0) scale(1);
+}
+.bio-modal-img {
+  position: relative; overflow: hidden;
+}
+.bio-modal-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+  display: block;
+}
+.bio-modal-img::after { display: none; }
+.bio-modal-body {
+  padding: 48px 40px 40px;
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 0;
+}
+.bio-modal-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--c-blue);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.bio-modal-label::before {
+  content: ''; width: 18px; height: 2px;
+  background: var(--c-blue); border-radius: 2px; display: block;
+}
+.bio-modal-name {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+  letter-spacing: -0.03em; color: var(--c-white);
+  line-height: 1.05; margin-bottom: 6px;
+}
+.bio-modal-role {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--c-blue); margin-bottom: 28px;
+  opacity: 0.7;
+}
+.bio-modal-divider {
+  width: 40px; height: 2px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px; margin-bottom: 24px;
+}
+.bio-modal-tagline {
+  font-size: 15px; font-weight: 700;
+  color: var(--c-white); line-height: 1.4;
+  margin-bottom: 16px; letter-spacing: -0.01em;
+}
+.bio-modal-points {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 0;
+}
+.bio-modal-point {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.55); line-height: 1.6;
+}
+.bio-modal-point::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--c-blue); flex-shrink: 0;
+  margin-top: 6px;
+}
+.bio-modal-quote {
+  margin-top: 20px; padding: 14px 18px;
+  background: rgba(0,82,255,0.08);
+  border-left: 2px solid var(--c-blue);
+  border-radius: 0 8px 8px 0;
+  font-size: 12px; font-style: italic;
+  color: rgba(255,255,255,0.45); line-height: 1.6;
+}
+.bio-modal-close {
+  position: fixed; top: 20px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(10,10,10,0.85);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.bio-modal-close:hover, .bio-modal-close:active { background: var(--c-blue); color: #fff; border-color: var(--c-blue); }
+/* Curseur pointer sur les founder cards */
+.founder-card { cursor: pointer; }
+.founder-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(0,82,255,0);
+  border-radius: 16px;
+  transition: background 0.3s;
+  pointer-events: none;
+}
+.founder-card:hover .founder-img::after {
+  background: rgba(0,82,255,0.12);
+}
+/* Hint "voir bio" au hover */
+.founder-hint {
+  position: absolute; bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(0,82,255,0.85);
+  padding: 5px 12px; border-radius: 20px;
+  white-space: nowrap; pointer-events: none;
+  opacity: 1;
+}
+/* Mobile */
+@media (max-width: 768px) {
+  .bio-modal-overlay {
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    padding: 72px 16px 32px !important;
+  }
+  .bio-modal {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    border-radius: 16px !important;
+  }
+  .bio-modal-img { height: 260px; }
+  .bio-modal-img::after { display: none; }
+  .bio-modal-body { padding: 24px 20px 32px; }
+}
+</style>
+</head>
+<body>
+<!-- ====== MODAL SHOWREEL ====== -->
+<!-- VIDEO MODAL — même structure que DR-06 -->
+<div class="modal" id="showreelModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;">
+  <button class="modal-close-btn" id="modalClose" style="position:fixed;top:28px;right:36px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,0.2);border-radius:30px;padding:10px 20px;cursor:none;display:flex;align-items:center;gap:8px;z-index:10001;">✕ Fermer la vidéo</button>
+  <div style="position:relative;width:88vw;max-width:1200px;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;">
+    <video id="showreelVideo" preload="none" controls playsinline style="width:100%;height:100%;object-fit:contain;">
+      <source src="https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+
+<!-- Cursor -->
+<div class="cursor-dot" id="cd"></div>
+<div class="cursor-circle" id="cc"></div>
+<script>
+/* CURSOR — inline juste après les divs, comme index-10 */
+(function() {
+  var dot  = document.getElementById('cd');
+  var ring = document.getElementById('cc');
+  if (!dot || !ring) return;
+  var mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove', function(e) {
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px';
+    dot.style.top=my+'px';
+  });
+  (function loop(){
+    rx+=(mx-rx)*0.12;
+    ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px';
+    ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener('mouseover',function(e){
+    var t=e.target;
+    if(t.tagName==='A'||t.tagName==='BUTTON'){
+      dot.classList.add('hovered');ring.classList.add('hovered');
+    } else {
+      dot.classList.remove('hovered');ring.classList.remove('hovered');
+    }
+  });
+})();
+</script>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/865hhwy17kspowr8mbosy/logocouleur-rond-blanc.png?rlkey=86tah9irwlntukduqyhse06gb&dl=1" alt="Drone06" class="nav-logo-icon">
+    <span class="nav-logo-text">Drone06</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">Accueil</a></li>
+    <li><a href="#prise-de-vue">Image</a></li>
+    <li><a href="#photogrammetrie">Photogrammétrie</a></li>
+    <li><a href="#securite">Sécurité</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#dr06">DR-06</a></li>
+    <li><a href="#adn">ADN</a></li>
+    <li><a href="#" class="showreel-btn" data-video="https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1" style="color:var(--c-blue);font-weight:800;">▶ Showreel</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#contact" class="btn btn-solid">Nous contacter</a>
+    <label class="hamburger-label" for="nav-toggle"><span></span><span></span><span></span></label>
+  </div>
+</nav>
+<script>
+/* NAV SCROLL — standalone, placé juste après la nav comme index-10 */
+(function(){
+  var n = document.getElementById('nav');
+  if(!n) return;
+  function upd(){
+    if(window.scrollY > 60){
+      n.style.background = 'rgba(10,10,10,1)';
+      n.style.backdropFilter = 'blur(20px)';
+      n.style.webkitBackdropFilter = 'blur(20px)';
+      n.style.boxShadow = '0 4px 20px rgba(0,0,0,0.8)';
+    } else {
+      n.style.background = 'transparent';
+      n.style.backdropFilter = 'none';
+      n.style.webkitBackdropFilter = 'none';
+      n.style.boxShadow = 'none';
+    }
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  upd();
+})();
+</script>
+
+<!-- ===================== BLOC 1 — HERO ===================== -->
+<section class="hero" id="hero">
+  <!-- Gradient top pour couvrir le joint nav/hero -->
+  <div style="position:absolute;top:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,rgba(4,6,12,1) 0%,rgba(4,6,12,0) 100%);z-index:2;pointer-events:none;"></div>
+  <div class="hero-bg">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;"
+    >
+      <source src="https://dl.dropboxusercontent.com/scl/fi/gqyfo9go5jxmt6cj55rt0/SEQUENCE-HOMEP.mp4?rlkey=ugjz8hm32i5e8f9xet3a63w0w&dl=1" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-glow"></div>
+  <div class="hero-overlay" id="heroOverlay" onclick="openShowreelFromHero()" style="cursor:pointer;" title="Cliquer pour voir le showreel"></div>
+
+  <div class="hero-inner">
+    <!-- Corps : titre gauche + meta droite, en bas -->
+    <div class="hero-body">
+      <h1 class="hero-title">
+        drone 06 :<br>
+        l'excellence<br>
+        aérienne au<br>
+        service de<br>
+        <em>l'image</em>
+      </h1>
+      <div class="hero-meta">
+        <p class="hero-sub">Drone06 conçoit, déploie et opère des solutions aériennes avancées pour la captation audiovisuelle, l'acquisition géospatiale, l'inspection, la sécurité, la formation télépilote et le développement de solutions de nouvelle génération.</p>
+        <div class="hero-btns">
+          <a href="#image" class="btn btn-solid">Découvrir nos expertises</a>
+          <a href="dr06.html" class="btn btn-outline">Découvrir le DR-06</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- ===================== BLOC VIDÉO — pleine page ===================== -->
+<section class="bloc-video" id="video">
+  <div class="video-wrap">
+    <div class="video-sim"></div>
+    <div class="video-scanlines"></div>
+    <div class="video-overlay"></div>
+  </div>
+  <!-- HUD corners -->
+  <div class="hud-corner hud-tl"></div>
+  <div class="hud-corner hud-tr"></div>
+  <div class="hud-corner hud-bl"></div>
+  <div class="hud-corner hud-br"></div>
+  <div class="hud-info">DRONE06 — SHOWREEL 2024 — 4K</div>
+
+  <div class="video-content">
+    <p class="video-caption rv">Cinéma — Publicité — FPV — Territoire</p>
+    <h2 class="video-title rv rv-d1">
+      une culture du vol,<br>
+      de <em>l'image</em> et<br>
+      de l'exécution
+    </h2>
+    <a href="#" class="video-play rv rv-d2 showreel-btn video-play-pulse" data-video="https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1">
+      <div class="play-ring"><div class="play-triangle"></div></div>
+      Lancer le showreel
+    </a>
+  </div>
+</section>
+
+<!-- ===================== BLOC 3 — IMAGE CINÉ ===================== -->
+<section class="bloc-cine" id="image">
+  <div class="cine-header">
+    <div>
+      <div class="s-label rv">Expertise visuelle</div>
+      <h2 class="cine-h2 rv rv-d1">
+nos domaines<br>d'<em>excellence</em>
+      </h2>
+    </div>
+    <div class="cine-right rv rv-d2">
+      <p class="cine-sub">Du cinéma à la sécurité, de l'inspection au vol habité — Drone06 maîtrise l'ensemble de la chaîne aérienne. Chaque mission mobilise des compétences croisées : pilotage, ingénierie, image et expertise opérationnelle sur le terrain.</p>
+    </div>
+  </div>
+
+  <!-- Grille 4 expertises -->
+  <div class="expertises-grid rv rv-d2">
+
+    <!-- 01 Prise de vue -->
+    <a href="#prise-de-vue" class="expertise-card" style="text-decoration:none;">
+      <div class="expertise-card-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/m6fgrx4e1tgancdmsihg4/clubmed-piscine.jpg?rlkey=aloqwngrwm8ifa51w7287cfvq&dl=1" alt="Prise de vue aérienne" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="expertise-card-body">
+        <div class="expertise-card-num">01</div>
+        <div class="expertise-card-title">Prise de vue aérienne</div>
+      </div>
+      <div class="expertise-card-arrow">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <!-- 02 Photogrammétrie -->
+    <a href="#photogrammetrie" class="expertise-card" style="text-decoration:none;">
+      <div class="expertise-card-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/kcf13dyed16mhl4jcfk3d/photogrametrie-OK.jpg?rlkey=28msli48grlm2035fltfxu5uj&dl=1" alt="Photogrammétrie" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="expertise-card-body">
+        <div class="expertise-card-num">02</div>
+        <div class="expertise-card-title">Photogrammétrie &amp; inspection</div>
+      </div>
+      <div class="expertise-card-arrow">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <!-- 03 Sécurité -->
+    <a href="#securite" class="expertise-card" style="text-decoration:none;">
+      <div class="expertise-card-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/hrm4830q6qc1c7mjuuino/surveillance-securite.jpg?rlkey=rg1d2eielhklmyocoe2fjuyb7&dl=1" alt="Surveillance" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="expertise-card-body">
+        <div class="expertise-card-num">03</div>
+        <div class="expertise-card-title">Surveillance &amp; sécurité</div>
+      </div>
+      <div class="expertise-card-arrow">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <!-- 04 DR-06 -->
+    <a href="#dr06" class="expertise-card" style="text-decoration:none;">
+      <div class="expertise-card-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/1zfri8xmd3tpwknrjk8il/DR06-PUB02.jpg?rlkey=rofz0s74nmv07ns5mp48mr9ki&dl=1" alt="DR-06" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="expertise-card-body">
+        <div class="expertise-card-num">04</div>
+        <div class="expertise-card-title">Innovation DR-06</div>
+      </div>
+      <div class="expertise-card-arrow">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Scroll hint -->
+  <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;">
+    <div class="section-scroll-line"></div>
+    <span style="font-family:var(--font);font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:rgba(0,0,0,0.2);">Scroll</span>
+  </div>
+</section>
+
+<!-- ===================== BLOC 4 — PRISE DE VUE ===================== -->
+<section class="bloc-vue" id="prise-de-vue">
+  <div class="vue-text">
+    <div class="s-label rv">Image aérienne</div>
+    <h2 class="vue-h2 rv rv-d1">
+      prise de vue<br>aérienne :<br>
+      <em>l'image comme</em><br>point de départ
+    </h2>
+    <p class="vue-p rv rv-d2">Drone06 est née de la prise de vue aérienne. Drone, avion, hélicoptère : l'entreprise accompagne les projets visuels qui recherchent impact, précision et qualité d'exécution.</p>
+    <ul class="vue-services rv rv-d2">
+      <li>Cinéma</li>
+      <li>FPV</li>
+      <li>Photographie &amp; Publicité</li>
+      <li>Événementiel</li>
+    </ul>
+    <p class="vue-quote rv rv-d3">Des solutions aériennes pour chaque ambition visuelle.</p>
+    <!-- Drone image + bouton -->
+    <div class="vue-bottom rv rv-d3">
+      <a href="drones.html" class="btn btn-solid">Découvrir nos drones</a>
+    </div>
+  </div>
+  <div class="vue-img-stack">
+    <div class="vue-img-big rv rv-d1">
+      <div class="cine-img" style="aspect-ratio:1/1;">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/tvfz1u7jjr8htpc6af36l/camera3.jpg?rlkey=0wucw6fn71bynyc25if3jlvuk&dl=1" alt="Caméra cinéma aérienne" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BLOC GLOBE CTA ===================== -->
+<section class="bloc-globe-cta">
+  <!-- Image fond pleine largeur -->
+  <div class="globe-cta-bg">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/vrbpo8egyyqn1biwuj9in/horizon.jpg?rlkey=wwavwvlp2irfthzfyc5tlj2tc&dl=1" alt="Horizon aérien — Drone06">
+  </div>
+  <!-- Texte overlay -->
+  <div class="globe-cta-text rv">
+    <div class="s-label">Présence mondiale</div>
+    <h2 class="globe-cta-h2">
+      l'image n'a pas<br>de <em>frontières</em>
+    </h2>
+    <p class="globe-cta-p">De Nice aux Maldives, des Alpes au Japon — Drone06 déploie ses équipes et ses machines sur tous les continents depuis 2008.</p>
+    <div class="globe-cta-stats">
+      <div>
+        <div class="globe-cta-stat-n">24+</div>
+        <div class="globe-cta-stat-l">Destinations</div>
+      </div>
+      <div>
+        <div class="globe-cta-stat-n">4</div>
+        <div class="globe-cta-stat-l">Continents</div>
+      </div>
+      <div>
+        <div class="globe-cta-stat-n">16+</div>
+        <div class="globe-cta-stat-l">Années</div>
+      </div>
+    </div>
+    <a href="#globe" class="btn-globe">Explorer nos destinations</a>
+  </div>
+</section>
+
+<!-- ===================== SECTION GLOBE DESTINATIONS ===================== -->
+<section id="globe" style="position:relative;width:100%;height:100vh;background:#04080F;overflow:hidden;max-width:100vw;">
+
+  <!-- Canvas D3 -->
+  <canvas id="globe-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;cursor:grab;"></canvas>
+
+  <!-- Lien retour -->
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:32px 60px;display:flex;align-items:center;justify-content:flex-end;">
+    <a href="#hero" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(0,207,255,0.35);text-decoration:none;transition:color .2s;">↑ Retour en haut</a>
+  </div>
+
+  <!-- Hint drag -->
+  <div style="position:absolute;bottom:160px;left:60px;z-index:10;pointer-events:none;">
+    <div style="font-family:var(--font);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(0,207,255,0.3);display:flex;align-items:center;gap:8px;animation:pulse 3s ease-in-out infinite;">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="rgba(0,207,255,.4)" stroke-width="1"/><path d="M6 3v6M3 6h6" stroke="rgba(0,207,255,.4)" stroke-width="1" stroke-linecap="round"/></svg>
+      Faites tourner le globe
+    </div>
+  </div>
+
+  <!-- Compteurs -->
+  <div style="position:absolute;bottom:60px;left:60px;z-index:10;display:flex;gap:32px;">
+    <div><div style="font-family:var(--font);font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#0052FF;line-height:1;">24+</div><div style="font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-top:3px;">Destinations</div></div>
+    <div><div style="font-family:var(--font);font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#0052FF;line-height:1;">4</div><div style="font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-top:3px;">Continents</div></div>
+    <div><div style="font-family:var(--font);font-size:28px;font-weight:800;letter-spacing:-0.03em;color:#0052FF;line-height:1;">16+</div><div style="font-family:var(--font);font-size:8px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-top:3px;">Années</div></div>
+  </div>
+
+  <!-- Liste destinations -->
+  <div id="globe-dest-list" style="position:absolute;right:48px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:2px;background:rgba(4,8,15,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:14px 16px;border-radius:14px;border:1px solid rgba(0,207,255,0.1);overflow:hidden;"></div>
+
+  <!-- Tooltip -->
+  <div id="globe-tt" style="position:fixed;z-index:9999;pointer-events:none;opacity:0;transition:opacity .2s;transform:translate(-50%,-135%);">
+    <div style="background:rgba(4,8,15,.95);border:1px solid rgba(0,82,255,0.5);backdrop-filter:blur(12px);border-radius:9px;padding:9px 15px;white-space:nowrap;text-align:center;">
+      <div id="globe-tt-c" style="font-family:var(--font);font-size:12px;font-weight:800;color:#fff;"></div>
+      <div id="globe-tt-n" style="font-family:var(--font);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#0052FF;margin-top:2px;"></div>
+    </div>
+    <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:5px solid rgba(0,82,255,0.5);margin:0 auto;"></div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+(async function initGlobe() {
+  var DEST = [
+    {city:'Nice',       country:'France',       lat:43.71, lon:7.26},
+    {city:'Paris',      country:'France',       lat:48.85, lon:2.35},
+    {city:'Cefalù',     country:'Sicile',       lat:38.03, lon:14.02},
+    {city:'Marrakech',  country:'Maroc',        lat:31.63, lon:-7.99},
+    {city:'Tunisie',    country:'Afrique',      lat:33.89, lon:9.54},
+    {city:'Samoëns',    country:'Alpes',        lat:46.08, lon:6.72},
+    {city:"Val d'Isère",country:'Alpes',        lat:45.45, lon:6.98},
+    {city:'Val Thorens',country:'Alpes',        lat:45.30, lon:6.58},
+    {city:'Chicago',    country:'USA',          lat:41.88, lon:-87.63},
+    {city:'Montréal',   country:'Canada',       lat:45.50, lon:-73.57},
+    {city:'Cancun',     country:'Mexique',      lat:21.16, lon:-86.85},
+    {city:'Martinique', country:'Antilles',     lat:14.64, lon:-61.02},
+    {city:'Guadeloupe', country:'Antilles',     lat:16.26, lon:-61.55},
+    {city:'Maldives',   country:'Océan Indien', lat:3.20,  lon:73.22},
+    {city:'Île Maurice',country:'Océan Indien', lat:-20.34,lon:57.55},
+    {city:'Seychelles', country:'Océan Indien', lat:-4.68, lon:55.49},
+    {city:'Beidaihe',   country:'Chine',        lat:39.83, lon:119.49},
+    {city:'Tokyo',      country:'Japon',           lat:35.68,  lon:139.69},
+    {city:'Les Arcs',   country:'Alpes',           lat:45.57,  lon:6.82},
+    {city:'Valmorel',   country:'Alpes',           lat:45.43,  lon:6.47},
+    {city:'Sanya',      country:'Chine',           lat:18.25,  lon:109.51},
+    {city:'Bahamas',    country:'Caraïbes',        lat:25.03,  lon:-77.39},
+    {city:'Miches',     country:'Rép. Dominicaine',lat:18.98,  lon:-69.04},
+    {city:'Bali',       country:'Indonésie',       lat:-8.34,  lon:115.09},
+  ];
+
+  var canvas  = document.getElementById('globe-canvas');
+  var ctx     = canvas.getContext('2d');
+  var wrapper = document.getElementById('globe');
+  var dpr     = window.devicePixelRatio || 1;
+
+  var W, H, radius, projection, path;
+
+  function setupCanvas() {
+    W = wrapper.offsetWidth;
+    H = wrapper.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+
+    radius = Math.min(W, H) * 0.42;
+
+    projection = d3.geoOrthographic()
+      .scale(radius)
+      .translate([W / 2, H / 2])
+      .clipAngle(90)
+      .rotate(cRot);
+
+    path = d3.geoPath().projection(projection).context(ctx);
+  }
+
+  // --- Rotation state (tRot/cRot lerp = inertie naturelle, comme l'ancien globe) ---
+  var tRot       = [15, -20];  // rotation cible
+  var cRot       = [15, -20];  // rotation courante (suit tRot avec lerp 0.05)
+  var autoRotate = true;
+  var autoTimer  = null;
+  var isDragging = false;
+  var pm         = {x:0, y:0};
+
+  // --- Load GeoJSON ---
+  var land110, countries110, allDots = [];
+  var dotsReady = false;
+
+  function generateDots(features) {
+    // Crée un set de dots sur les terres (point-in-polygon avec GeoJSON réel)
+    allDots = [];
+    features.forEach(function(feature) {
+      var bounds = d3.geoBounds(feature);
+      var minLng = bounds[0][0], minLat = bounds[0][1];
+      var maxLng = bounds[1][0], maxLat = bounds[1][1];
+      var step = 2.5; // espacement en degrés
+      for (var lng = minLng; lng <= maxLng; lng += step) {
+        for (var lat = minLat; lat <= maxLat; lat += step) {
+          if (d3.geoContains(feature, [lng, lat])) {
+            // petite variation aléatoire (seed fixe pour stabilité)
+            allDots.push([lng + (Math.random()-0.5)*0.5, lat + (Math.random()-0.5)*0.5]);
+          }
+        }
+      }
+    });
+    dotsReady = true;
+  }
+
+  try {
+    var [landResp, countriesResp] = await Promise.all([
+      fetch('https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master/110m/physical/ne_110m_land.json'),
+      fetch('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson')
+    ]);
+    land110      = await landResp.json();
+    countries110 = await countriesResp.json();
+    generateDots(land110.features);
+  } catch(e) {
+    console.warn('Globe: GeoJSON load error', e);
+  }
+
+  // --- Sidebar destinations ---
+  var list = document.getElementById('globe-dest-list');
+  DEST.forEach(function(d, i) {
+    var el = document.createElement('div');
+    el.style.cssText = 'font-family:Manrope,sans-serif;font-size:8px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55);cursor:pointer;display:flex;align-items:center;gap:7px;padding:2px 0;transition:color .2s,text-shadow .2s;';
+    el.textContent = d.city;
+    el.addEventListener('mouseenter', function(){ el.style.color='rgba(0,207,255,1)'; el.style.textShadow='0 0 10px rgba(0,207,255,0.6)'; });
+    el.addEventListener('mouseleave', function(){ el.style.color='rgba(255,255,255,.55)'; el.style.textShadow='none'; });
+    el.addEventListener('click', function(){ flyTo(d); });
+    list.appendChild(el);
+  });
+
+  function flyTo(dest) {
+    autoRotate = false;
+    clearTimeout(autoTimer);
+    var target = [-dest.lon, -dest.lat];
+    var current = [...tRot];
+    var steps = 60;
+    var step = 0;
+    var anim = setInterval(function() {
+      step++;
+      var t = step / steps;
+      t = t < 0.5 ? 2*t*t : -1+(4-2*t)*t; // ease in-out
+      tRot[0] = current[0] + (target[0] - current[0]) * t;
+      tRot[1] = current[1] + (target[1] - current[1]) * t;
+      if (step >= steps) {
+        clearInterval(anim);
+        autoTimer = setTimeout(function(){ autoRotate = true; }, 5000);
+      }
+    }, 16);
+  }
+
+  // --- Render ---
+  var hoveredPin = null;
+  var tt    = document.getElementById('globe-tt');
+  var ttC   = document.getElementById('globe-tt-c');
+  var ttN   = document.getElementById('globe-tt-n');
+  var mouseX = 0, mouseY = 0;
+
+  function render(t) {
+    if (!projection) return;
+    projection.rotate(cRot);
+    ctx.clearRect(0, 0, W, H);
+
+    var sf = radius / (Math.min(800,600) / 2 * 0.42 || 1);
+
+    // --- Sphère fond ---
+    ctx.beginPath();
+    ctx.arc(W/2, H/2, radius, 0, Math.PI*2);
+    ctx.fillStyle = '#04080F';
+    ctx.fill();
+
+    // --- Graticule (lat/lon) ---
+    var graticule = d3.geoGraticule().step([30, 30])();
+    ctx.beginPath();
+    path(graticule);
+    ctx.strokeStyle = 'rgba(0,207,255,0.10)';
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
+
+    // --- Frontières pays ---
+    if (countries110) {
+      countries110.features.forEach(function(feature) {
+        ctx.beginPath();
+        path(feature);
+        ctx.strokeStyle = 'rgba(0,207,255,0.35)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+    }
+
+    // --- Contour terres (land fill) ---
+    if (land110) {
+      ctx.beginPath();
+      land110.features.forEach(function(f){ path(f); });
+      ctx.fillStyle = 'rgba(0,207,255,0.06)';
+      ctx.fill();
+    }
+
+    // --- Dots halftone sur les terres ---
+    if (dotsReady) {
+      allDots.forEach(function(dot) {
+        var proj = projection(dot);
+        if (!proj) return;
+        // Clip : seulement face visible (hemisphere)
+        // visibilité gérée par clipAngle(90) de D3
+        // Vérifie que le point est projeté dans le canvas
+        if (proj[0] < 0 || proj[0] > W || proj[1] < 0 || proj[1] > H) return;
+        ctx.beginPath();
+        ctx.arc(proj[0], proj[1], 1.1, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(0,207,255,0.55)';
+        ctx.fill();
+      });
+    }
+
+    // --- Bord sphère ---
+    ctx.beginPath();
+    ctx.arc(W/2, H/2, radius, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,207,255,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // --- Atmosphère glow ---
+    var grad = ctx.createRadialGradient(W/2, H/2, radius*0.92, W/2, H/2, radius*1.08);
+    grad.addColorStop(0, 'rgba(0,207,255,0.05)');
+    grad.addColorStop(1, 'rgba(0,207,255,0)');
+    ctx.beginPath();
+    ctx.arc(W/2, H/2, radius*1.08, 0, Math.PI*2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // --- Pins destinations ---
+    hoveredPin = null;
+    DEST.forEach(function(d) {
+      var proj = projection([d.lon, d.lat]);
+      if (!proj) return;
+      // Test visibilité (face avant)
+      var lam = d.lon * Math.PI/180;
+      var phi = d.lat * Math.PI/180;
+      var lam0 = -cRot[0] * Math.PI/180;
+      var phi0 = -cRot[1] * Math.PI/180;
+      var cosc = Math.sin(phi0)*Math.sin(phi) + Math.cos(phi0)*Math.cos(phi)*Math.cos(lam-lam0);
+      if (cosc < 0) return; // derrière le globe
+
+      // Halo pulsant
+      var pulse = 0.5 + 0.5 * Math.sin(t * 1.8 + d.lon);
+      ctx.beginPath();
+      ctx.arc(proj[0], proj[1], 8 + pulse * 6, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,207,255,' + (0.06 + pulse*0.06) + ')';
+      ctx.fill();
+
+      // Ring
+      ctx.beginPath();
+      ctx.arc(proj[0], proj[1], 6, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(0,207,255,0.5)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Point central
+      ctx.beginPath();
+      ctx.arc(proj[0], proj[1], 3, 0, Math.PI*2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      // Label
+      ctx.font = '700 9px Manrope, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.75)';
+      ctx.letterSpacing = '0.1em';
+      ctx.fillText(d.city.toUpperCase(), proj[0] + 8, proj[1] - 6);
+
+      // Hover detection
+      var dx = mouseX - proj[0], dy = mouseY - proj[1];
+      if (Math.sqrt(dx*dx+dy*dy) < 14) hoveredPin = d;
+    });
+
+    // Tooltip
+    if (hoveredPin) {
+      ttC.textContent = hoveredPin.city;
+      ttN.textContent = hoveredPin.country;
+      tt.style.left = mouseX + 'px';
+      tt.style.top  = mouseY + 'px';
+      tt.style.opacity = '1';
+    } else {
+      tt.style.opacity = '0';
+    }
+  }
+
+  // --- Animation loop ---
+  var startTime = null;
+  function animate(ts) {
+    if (!startTime) startTime = ts;
+    var t = (ts - startTime) / 1000;
+    // Auto-rotation : incrémente la cible, la courante suit avec lerp
+    if (autoRotate) tRot[0] += 0.12;
+    cRot[0] += (tRot[0] - cRot[0]) * 0.05;
+    cRot[1] += (tRot[1] - cRot[1]) * 0.05;
+    render(t);
+    requestAnimationFrame(animate);
+  }
+
+  // --- Drag (système delta incrémental sur tRot, comme l'ancien globe) ---
+  function getXY(e) {
+    if (e.touches) return [e.touches[0].clientX, e.touches[0].clientY];
+    return [e.clientX, e.clientY];
+  }
+
+  function onDown(ex, ey) {
+    isDragging = true;
+    autoRotate = false;
+    clearTimeout(autoTimer);
+    pm = {x: ex, y: ey};
+  }
+  function onUp() {
+    isDragging = false;
+    // Auto-rotation reprend après 4s (cRot aura le temps de rejoindre tRot = inertie visuelle)
+    autoTimer = setTimeout(function(){ autoRotate = true; }, 4000);
+  }
+  function onMove(ex, ey) {
+    if (!isDragging) return;
+    var dx = ex - pm.x;
+    var dy = ey - pm.y;
+    tRot[0] += dx * 0.4;
+    tRot[1] -= dy * 0.4;
+    tRot[1]  = Math.max(-85, Math.min(85, tRot[1]));
+    pm = {x: ex, y: ey};
+  }
+
+  canvas.addEventListener('mousedown',  function(e){ onDown(e.clientX, e.clientY); });
+  window.addEventListener('mouseup',    onUp);
+  window.addEventListener('mousemove',  function(e){
+    var r = canvas.getBoundingClientRect();
+    mouseX = e.clientX - r.left;
+    mouseY = e.clientY - r.top;
+    onMove(e.clientX, e.clientY);
+  });
+  canvas.addEventListener('touchstart', function(e){ onDown(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
+  window.addEventListener('touchend',   onUp);
+  window.addEventListener('touchmove',  function(e){ if(isDragging) onMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
+
+  // --- Resize ---
+  window.addEventListener('resize', function() {
+    setupCanvas();
+  });
+
+  // --- Init ---
+  setupCanvas();
+  requestAnimationFrame(animate);
+})();
+</script>
+
+
+<!-- ===================== BLOC 5 — PHOTOGRAMMÉTRIE ===================== -->
+<section class="bloc-photo" id="photogrammetrie">
+  <div class="photo-header" style="grid-template-columns:1fr; gap:16px;">
+    <div class="s-label rv">Acquisition géospatiale</div>
+    <h2 class="photo-h2 rv rv-d1">
+      photogrammétrie<br>&amp; inspection
+    </h2>
+    <p class="photo-p rv rv-d2" style="font-size:17px;font-weight:400;color:#1a1a1a;line-height:1.6;max-width:680px;">
+      Observer, mesurer, inspecter et éclairer la décision. Drone06 déploie des solutions aériennes pour l'acquisition géospatiale, l'inspection, la surveillance et l'aide à la décision dans des environnements exigeants.
+    </p>
+  </div>
+
+  <!-- 01 — Jumeau numérique : pleine largeur -->
+  <div class="tech-c tech-c-full rv rv-d2">
+    <div class="tech-c-img" style="aspect-ratio:21/9; overflow:hidden;">
+      <img src="https://dl.dropboxusercontent.com/scl/fi/pgf7rto27lokkyu3r9t5a/NICE-FULL.jpg?rlkey=x91q5d63ghc3n1edvs49q4xo5&dl=1" alt="Nice — Jumeau numérique" style="width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block;">
+    </div>
+    <div class="tech-c-body">
+      <div class="tech-c-num">01</div>
+      <div class="tech-c-title">Jumeau numérique</div>
+    </div>
+  </div>
+
+  <!-- Stats 2 cartes noires -->
+  <div class="stats-row rv rv-d2">
+    <div class="stat-card" style="display:flex;flex-direction:column;justify-content:center;">
+      <div class="stat-label-top">Confidentiel</div>
+      <div class="stat-n">x,x<sup>cm</sup></div>
+      <div class="stat-l">Résolution GSD / pixel</div>
+    </div>
+    <div class="stat-card" style="display:flex;flex-direction:column;justify-content:center;">
+      <div class="stat-label-top" style="visibility:hidden;">—</div>
+      <div class="stat-n">10<sup>cm</sup></div>
+      <div class="stat-l">Précision planimétrique</div>
+    </div>
+  </div>
+
+  <!-- 02 / 03 / 04 — grille 3 colonnes -->
+  <div class="tech-row rv rv-d3" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="tech-c">
+      <div class="tech-c-img">
+        <div class="cine-img" style="aspect-ratio:16/9; border-radius:0;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/w3epi835uf6poum8wuz5t/nuage-de-points.jpg?rlkey=rrx8uug09elrl9jgxja0up5n1&dl=1" alt="Nuage de points 3D" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+      </div>
+      <div class="tech-c-body">
+        <div class="tech-c-num">02</div>
+        <div class="tech-c-title">Nuage de points 3D</div>
+      </div>
+    </div>
+    <div class="tech-c">
+      <div class="tech-c-img">
+        <div class="cine-img" style="aspect-ratio:16/9; border-radius:0;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/nmpt7oonfvkooth2smg8r/thermographie.jpg?rlkey=0llkqxvpbmhg137905keo9obc&dl=1" alt="Thermographie aérienne" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+      </div>
+      <div class="tech-c-body">
+        <div class="tech-c-num">03</div>
+        <div class="tech-c-title">Thermographie aérienne</div>
+      </div>
+    </div>
+    <div class="tech-c">
+      <div class="tech-c-img">
+        <div class="cine-img" style="aspect-ratio:16/9; border-radius:0;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/1i02e9yt30agrf88aczza/inspection.png?rlkey=bo2kurernv2887aohvonuv7pd&dl=1" alt="Inspection infrastructure" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+      </div>
+      <div class="tech-c-body">
+        <div class="tech-c-num">04</div>
+        <div class="tech-c-title">Inspection infrastructure</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BLOC 6 — SÉCURITÉ ===================== -->
+<section class="bloc-secu" id="securite">
+  <div class="secu-watermark">sécurité</div>
+  <div class="secu-inner">
+    <div>
+      <div class="s-label rv">Opérations sensibles</div>
+      <h2 class="secu-h2 rv rv-d1">surveillance<br>&amp; sécurité</h2>
+      <p class="secu-p rv rv-d2" style="font-size:18px;font-weight:400;color:rgba(255,255,255,0.7);margin-bottom:12px;">
+        Une approche orientée terrain, pratique et maîtrise opérationnelle.
+      </p>
+      <p class="secu-p rv rv-d2">Drone06 déploie des solutions aériennes pour l'acquisition géospatiale, l'inspection, la surveillance et l'aide à la décision pour les missions techniques ou sensibles.</p>
+      <a href="#" class="btn btn-solid rv rv-d3">En savoir plus</a>
+    </div>
+    <div class="secu-img-grid rv rv-d2">
+      <div class="secu-img-col">
+        <div class="cine-img" style="aspect-ratio:2/3;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/5curbndbx4ezfy8boudw8/aeroport.png?rlkey=51c09ew8t50bcdbrvtqw1bun3&dl=1" alt="Surveillance aéroport" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+          <div class="cine-tag">Surveillance — Aéroport</div>
+        </div>
+      </div>
+      <div class="secu-img-col">
+        <div class="cine-img" style="aspect-ratio:2/3;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/p7c2ccrtf6re894hax6wz/securit.jpg?rlkey=ourwifqyh8872v4hujqo5w1bv&dl=1" alt="Sécurité mission" style="width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;">
+          <div class="cine-tag">Mission — Sécurité</div>
+        </div>
+      </div>
+      <div class="secu-img-col">
+        <div class="cine-img" style="aspect-ratio:2/3;">
+          <img src="https://dl.dropboxusercontent.com/scl/fi/t855j8jnznvjynkm8uxg4/incendie.png?rlkey=vnx1qmtkpyr8zf237es47hadp&dl=1" alt="Mission incendie" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;">
+          <div class="cine-tag">Mission — Incendie</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BLOC 7 — DR-06 ===================== -->
+<section class="bloc-dr06" id="dr06">
+  <div class="dr06-bg-grad"></div>
+
+  <!-- Texte gauche -->
+  <div class="dr06-text">
+    <div class="s-label rv">Plateforme exclusive</div>
+    <h2 class="dr06-h2 rv rv-d1">dr<em>_06</em></h2>
+    <p class="dr06-sub rv rv-d1">rider-controlled aircraft</p>
+    <p class="dr06-tagline rv rv-d2">une nouvelle façon de découvrir le ciel</p>
+    <p class="dr06-p rv rv-d2">Pensé comme une plateforme aérienne rare, spectaculaire et personnalisable, le DR-06 ouvre de nouveaux usages entre production, expérience, événement et acquisition privée.</p>
+    <div class="dr06-tags rv rv-d3">
+      <span class="dr06-tag">Acquisition</span>
+      <span class="dr06-tag">Événement</span>
+      <span class="dr06-tag">Production</span>
+      <span class="dr06-tag">Expérience</span>
+    </div>
+    <a href="dr06.html" class="btn btn-solid rv rv-d3">Découvrir le DR-06</a>
+  </div>
+
+  <!-- Image droite -->
+  <div class="dr06-img-wrap rv">
+    <img
+      src="https://dl.dropboxusercontent.com/scl/fi/00m84k0b664kovineq7z4/DR06.jpg?rlkey=jhctpfqvkwsvpxbjsbusk3w0x&dl=1"
+      alt="DR-06 — Rider Controlled Aircraft"
+    >
+  </div>
+</section>
+
+<!-- ===================== BLOC 8 — ADN ===================== -->
+<section class="bloc-adn" id="adn">
+  <div class="adn-layout-new">
+    <!-- Colonne gauche : texte -->
+    <div class="adn-text-col">
+      <div class="s-label rv">Qui sommes nous</div>
+      <h2 class="adn-h2 rv rv-d1">
+        l'excellence<br>aérienne au<br>service de <em>l'image</em>
+      </h2>
+      <div class="rv rv-d2">
+        <p class="adn-p">Depuis 2008, Drone06 réunit pilotes, ingénieurs, experts techniques et professionnels de l'image autour d'une même ligne de conduite : l'excellence.</p>
+        <p class="adn-p">Dès sa création, Drone06 a fait le choix de l'exigence, de l'innovation technologique et de la qualité à toutes les étapes de son intervention, en France comme à l'étranger.</p>
+        <p class="adn-p" style="margin-bottom:32px;">La société comprend plus de 20 drones au service de l'image ainsi que des équipes en charge de toutes les démarches administratives d'autorisations de vols dans l'espace aérien (zones réglementées, dangereuses et CTR).</p>
+        <a href="#" class="btn btn-outline-dark">Découvrir notre équipe</a>
+      </div>
+    </div>
+    <!-- Colonne droite : photos fondateurs -->
+    <div class="adn-photos-col rv rv-d2">
+      <div class="adn-founders-new">
+        <div class="founder-card" onclick="openBio('sabri')" title="Voir la biographie" style="display:flex;flex-direction:column;">
+          <div class="founder-img" style="width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:16px;position:relative;flex-shrink:0;">
+            <img src="https://dl.dropboxusercontent.com/scl/fi/obuttlm1wvcmy7yvyljje/SABRI.png?rlkey=42w6ighftcs1f7q6tae7vesnx&dl=1" alt="Sabri Ben Hassen" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+            <div class="founder-hint">Voir la biographie</div>
+          </div>
+          <div class="founder-name">Sabri Ben Hassen</div>
+          <div class="founder-role">Directeur général</div>
+        </div>
+        <div class="founder-card" onclick="openBio('francois')" title="Voir la biographie" style="display:flex;flex-direction:column;">
+          <div class="founder-img" style="width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:16px;position:relative;flex-shrink:0;">
+            <img src="https://dl.dropboxusercontent.com/scl/fi/1dilt1ra1dgb7wtxnjm67/FRANCOIS2.jpg?rlkey=jmgwt88p67nrg1vnplmb6owb8&dl=1" alt="François Peyranne" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+            <div class="founder-hint">Voir la biographie</div>
+          </div>
+          <div class="founder-name" style="font-size:16px;font-weight:800;letter-spacing:0.08em;margin-top:14px;">François Peyranne</div>
+          <div class="founder-role">Directeur du développement<br>et directeur artistique</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:4px;">
+            <a href="https://www.francoispeyranne-rolex.com" target="_blank" style="font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-blue);text-decoration:underline;text-underline-offset:3px;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">francoispeyranne-rolex.com</a>
+            <a href="https://www.francoispeyranne.com" target="_blank" style="font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--c-blue);text-decoration:underline;text-underline-offset:3px;transition:opacity .2s;" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">francoispeyranne.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="adn-stats rv rv-d3">
+    <div class="adn-stat">
+      <div class="adn-sn">20+</div>
+      <div class="adn-sl">Drones opérationnels</div>
+    </div>
+    <div class="adn-stat">
+      <div class="adn-sn">16+</div>
+      <div class="adn-sl">Années d'expérience</div>
+    </div>
+    <div class="adn-stat">
+      <div class="adn-sn">FR<br>INT</div>
+      <div class="adn-sl">Déploiement</div>
+    </div>
+    <div class="adn-stat">
+      <div class="adn-sn">360°</div>
+      <div class="adn-sl">Autorisations DGAC</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BLOC 9 — FORMATION ===================== -->
+<section class="bloc-formation" id="formation">
+  <div class="form-img">
+    <div class="cine-img" style="height:100%; border-radius:0; max-height:520px;">
+      <img src="https://dl.dropboxusercontent.com/scl/fi/l7yn9slt3k3xpjg4g8448/TELEPILOTES.jpg?rlkey=0ijl08et1qt18q2hvj9mjs1v1&dl=1" alt="Formation télépilotes" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+    </div>
+  </div>
+  <div class="form-text">
+    <div class="s-label rv">Formation professionnelle</div>
+    <h2 class="form-h2 rv rv-d1">télépilotes</h2>
+    <p class="form-pitch rv rv-d1">Former les opérateurs de demain</p>
+    <p class="form-p rv rv-d2">Une approche orientée terrain, pratique et maîtrise opérationnelle.</p>
+    <p class="form-p rv rv-d2" style="margin-bottom:32px;">Drone06 accompagne les télépilotes vers une pratique rigoureuse, maîtrisée et professionnelle du drone.</p>
+    <a href="#" class="btn btn-solid rv rv-d3">Découvrir la formation</a>
+  </div>
+</section>
+
+<!-- ===================== BLOC 10 — CONTACT ===================== -->
+<section class="bloc-contact" id="contact">
+  <div class="contact-glow"></div>
+  <div class="contact-line"></div>
+  <div class="s-label rv" style="justify-content:center; margin-bottom:28px;">Parlons</div>
+  <h2 class="contact-h2 rv rv-d1">parlons de<br>votre projet</h2>
+  <p class="contact-sub rv rv-d2">Image, mission technique, formation télépilote, DR-06 ou partenariat : échangeons simplement sur vos besoins.</p>
+  <a href="mailto:contact@drone06.com" class="btn btn-solid rv rv-d2" style="font-size:14px; padding:16px 48px; letter-spacing:0.05em;">Nous contacter</a>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="ft-logo">Drone<span>06</span></div>
+  <div class="ft-copy">© 2024 Drone06 — Tous droits réservés</div>
+  <div class="ft-links">
+    <a href="#">Mentions légales</a>
+    <a href="#">CGU</a>
+    <a href="#">RGPD</a>
+  </div>
+</footer>
+
+<script>
+// Cursor custom
+
+
+// cursor handled above (inline script)
+
+// nav scroll handled inline after <nav>
+
+// Scroll reveal
+const rvEls = document.querySelectorAll('.rv');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+rvEls.forEach(el => io.observe(el));
+// Fallback : force tout visible après 800ms
+setTimeout(() => { rvEls.forEach(el => el.classList.add('on')); }, 800);
+
+// ====== TYPO ANIMATION — replay à chaque passage ======
+(function() {
+  var titles = document.querySelectorAll('h1, h2');
+
+  // Transition sur tous les titres dès le départ
+  titles.forEach(function(el) {
+    el.style.transition = 'opacity 0.85s ease, transform 0.85s ease';
+  });
+
+  function check() {
+    titles.forEach(function(el) {
+      var r = el.getBoundingClientRect();
+      var inView = r.top < window.innerHeight - 30 && r.bottom > 0;
+      var belowView = r.top >= window.innerHeight;
+
+      if (inView) {
+        // Visible : animer vers l'état final
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      } else if (belowView) {
+        // Sous le viewport : réinitialiser pour la prochaine fois
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(28px)';
+      }
+      // Si au-dessus du viewport (déjà scrollé) : on laisse visible
+    });
+  }
+
+  // État initial : tous invisibles sauf ceux déjà dans le viewport
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      titles.forEach(function(el) {
+        var r = el.getBoundingClientRect();
+        if (r.top >= window.innerHeight) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(28px)';
+        }
+      });
+      window.addEventListener('scroll', check, {passive: true});
+      setTimeout(check, 100);
+    });
+  });
+})();
+
+// Hero parallax
+window.addEventListener('scroll', function() {
+  var hc = document.querySelector('.hero-title-wrap');
+  if (hc) hc.style.transform = 'translateY(' + (window.scrollY * 0.12) + 'px)';
+});
+
+// ====== MODAL SHOWREEL ======
+(function() {
+  var modal   = document.getElementById('showreelModal');
+  var video   = document.getElementById('showreelVideo');
+  var loader  = document.getElementById('modalLoader');
+  var btnClose= document.getElementById('modalClose');
+
+  function openModal() {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    loader.classList.remove('hidden');
+    video.load();
+    video.play().catch(function(){});
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    video.pause();
+    video.currentTime = 0;
+    video.src = '';
+  }
+
+
+
+  // Tous les boutons showreel — chargement dynamique via data-video
+  document.querySelectorAll('.showreel-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var url = btn.getAttribute('data-video');
+      if (url) {
+        video.src = url;
+      }
+      openModal();
+    });
+  });
+
+  // Fermer
+  btnClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === mo
+<style>
+#showreelBtn {
+  animation: srPulse 1.2s ease-in-out infinite;
+}
+@keyframes srPulse {
+  0%,100% { color: #fff; }
+  50% { color: var(--c-blue); }
+}
+
+
+
+</script>
+<!-- MENU MOBILE -->
+<input type="checkbox" id="nav-toggle">
+<div class="nav-mobile-menu">
+  <a href="#hero">Accueil</a>
+  <a href="#image">Image</a>
+  <a href="#photogrammetrie">Photogrammétrie</a>
+  <a href="#securite">Sécurité</a>
+  <a href="#formation">Formation</a>
+  <a href="#dr06">DR-06</a>
+  <a href="#adn">ADN</a>
+  <a href="#" class="showreel-btn m-cta" data-video="https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1">▶ Showreel</a>
+  <a href="mailto:contact@drone06.com" class="m-cta">Nous contacter</a>
+</div>
+
+<script>
+/* SHOWREEL */
+(function() {
+  var URL = 'https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1';
+  var modal = document.getElementById('showreelModal');
+  var video = document.getElementById('showreelVideo');
+  var btnClose = document.getElementById('modalClose');
+  if (!modal || !video) return;
+  function openSR(url) {
+    modal.style.display='flex'; document.body.style.overflow='hidden';
+    video.src=url||URL; video.load(); video.play().catch(function(){});
+  }
+  function closeSR() {
+    modal.style.display='none'; document.body.style.overflow='';
+    video.pause(); video.currentTime=0; video.src='';
+  }
+  if(btnClose) btnClose.onclick=closeSR;
+  modal.onclick=function(e){if(e.target===modal)closeSR();};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSR();});
+  document.querySelectorAll('.showreel-btn').forEach(function(btn){
+    btn.onclick=function(e){
+      e.preventDefault(); e.stopPropagation();
+      openSR(btn.getAttribute('data-video')||URL);
+    };
+  });
+  var hero=document.getElementById('heroOverlay');
+  if(hero) hero.onclick=function(e){e.preventDefault();openSR(URL);};
+  var heroSec=document.getElementById('hero');
+  if(heroSec) heroSec.addEventListener('click',function(e){
+    var t=e.target.tagName.toLowerCase();
+    if(t==='a'||t==='button'||e.target.closest('a')||e.target.closest('button'))return;
+    openSR(URL);
+  });
+  window.openShowreelFromHero=function(){openSR(URL);};
+})();
+</script>
+<!-- nav scroll handled above -->
+
+<script>
+/* HAMBURGER simple */
+(function() {
+  var toggle = document.getElementById('nav-toggle');
+  var menu = document.querySelector('.nav-mobile-menu');
+  var label = document.querySelector('.hamburger-label');
+  if (!toggle || !menu) return;
+  
+  toggle.addEventListener('change', function() {
+    if (toggle.checked) {
+      menu.style.maxHeight = '520px';
+      menu.style.padding = '8px 18px 20px';
+    } else {
+      menu.style.maxHeight = '0';
+      menu.style.padding = '0 18px';
+    }
+  });
+  
+  // Fermer en cliquant un lien
+  menu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      toggle.checked = false;
+      menu.style.maxHeight = '0';
+      menu.style.padding = '0 18px';
+    });
+  });
+  
+  // Fermer au scroll
+  window.addEventListener('scroll', function() {
+    toggle.checked = false;
+    menu.style.maxHeight = '0';
+    menu.style.padding = '0 18px';
+  }, {passive: true});
+})();
+</script>
+
+<!-- ══ BIO MODAL ══ -->
+<div class="bio-modal-overlay" id="bioModal" onclick="if(event.target===this)closeBio()">
+  <div class="bio-modal" id="bioModalInner">
+    <button class="bio-modal-close" onclick="closeBio()">✕</button>
+    <div class="bio-modal-img">
+      <img id="bioModalImg" src="" alt="">
+    </div>
+    <div class="bio-modal-body" id="bioModalBody"></div>
+  </div>
+</div>
+
+<script>
+const BIOS = {
+  sabri: {
+    img: 'https://dl.dropboxusercontent.com/scl/fi/obuttlm1wvcmy7yvyljje/SABRI.png?rlkey=42w6ighftcs1f7q6tae7vesnx&dl=1',
+    label: "L'ADN Drone06 — Depuis 2008",
+    name: "Sabri Ben Hassen",
+    role: "Président & Directeur Général",
+    tagline: "Un pilote ingénieur aux commandes",
+    points: [
+      "Double Compétence Rare : Ingénieur Robotique & Pilote qualifié (Avion, Hélicoptère, Drone).",
+      "15 ans d'opérations critiques — productions cinéma et services de l'État (Secours / Sécurité).",
+      "Là où l'erreur n'est pas une option."
+    ],
+    quote: "« Comprendre les contraintes aéronautiques pour libérer la vision artistique. »"
+  },
+  francois: {
+    img: 'https://dl.dropboxusercontent.com/scl/fi/1dilt1ra1dgb7wtxnjm67/FRANCOIS2.jpg?rlkey=jmgwt88p67nrg1vnplmb6owb8&dl=1',
+    label: "Image de marque — DR-06 & Rolex",
+    name: "François Peyranne",
+    role: "Directeur Artistique & Designer",
+    tagline: "Plus de quinze ans d'exigence créative au service des marques les plus prestigieuses.",
+    points: [
+      "Double Maîtrise Rare : Designer, Réalisateur et Directeur Artistique spécialisé dans le luxe.",
+      "Collaborations : Cartier, Boucheron, Ruinart, Rolex, Club Med et bien d'autres.",
+      "<span style='font-weight:800;color:#fff;'>La Signature Rolex</span> : depuis plus de 10 ans, il a conçu et dirigé une majeure partie de la communication mondiale pour la prestigieuse marque d'horlogerie."
+    ],
+    quote: null
+  }
+};
+
+function openBio(key) {
+  const d = BIOS[key];
+  document.getElementById('bioModalImg').src = d.img;
+  document.getElementById('bioModalImg').alt = d.name;
+  const body = document.getElementById('bioModalBody');
+  body.innerHTML = `
+    <div class="bio-modal-label">${d.label}</div>
+    <div class="bio-modal-name">${d.name}</div>
+    <div class="bio-modal-role">${d.role}</div>
+    <div class="bio-modal-divider"></div>
+    <div class="bio-modal-tagline">${d.tagline}</div>
+    <div class="bio-modal-points">
+      ${d.points.map(p => `<div class="bio-modal-point"><span>${p}</span></div>`).join('')}
+    </div>
+    ${d.quote ? `<div class="bio-modal-quote">${d.quote}</div>` : ''}
+  `;
+  document.getElementById('bioModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBio() {
+  document.getElementById('bioModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeBio(); });
+</script>
+</body>
+</html>
