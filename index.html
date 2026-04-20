@@ -1718,9 +1718,7 @@ img { max-width: 100%; height: auto; }
 <div class="modal" id="showreelModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.95);align-items:center;justify-content:center;">
   <button class="modal-close-btn" id="modalClose" style="position:fixed;top:28px;right:36px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,0.2);border-radius:30px;padding:10px 20px;cursor:none;display:flex;align-items:center;gap:8px;z-index:10001;">✕ Fermer la vidéo</button>
   <div style="position:relative;width:88vw;max-width:1200px;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;">
-    <video id="showreelVideo" preload="none" controls playsinline style="width:100%;height:100%;object-fit:contain;">
-      <source src="https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1" type="video/mp4">
-    </video>
+    <iframe id="showreelVideo" src="https://player.vimeo.com/video/1184651873?autoplay=1&title=0&byline=0&portrait=0" style="width:100%;height:100%;border:0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -2764,39 +2762,36 @@ window.addEventListener('scroll', function() {
 </div>
 
 <script>
-/* SHOWREEL */
+/* SHOWREEL — Vimeo */
 (function() {
-  var URL = 'https://dl.dropboxusercontent.com/scl/fi/5ietig24cj5myuab81v3l/SHOWREEL_DRONE06.mp4?rlkey=u4axsplx5dsgv2e0xud27o6t5&dl=1';
+  var VIMEO_SRC = 'https://player.vimeo.com/video/1184651873?autoplay=1&title=0&byline=0&portrait=0';
   var modal = document.getElementById('showreelModal');
-  var video = document.getElementById('showreelVideo');
+  var iframe = document.getElementById('showreelVideo');
   var btnClose = document.getElementById('modalClose');
-  if (!modal || !video) return;
-  function openSR(url) {
+  if (!modal || !iframe) return;
+  function openSR() {
     modal.style.display='flex'; document.body.style.overflow='hidden';
-    video.src=url||URL; video.load(); video.play().catch(function(){});
+    iframe.src = VIMEO_SRC;
   }
   function closeSR() {
     modal.style.display='none'; document.body.style.overflow='';
-    video.pause(); video.currentTime=0; video.src='';
+    iframe.src = '';
   }
-  if(btnClose) btnClose.onclick=closeSR;
+  if(btnClose) btnClose.onclick=function(e){e.preventDefault();closeSR();};
   modal.onclick=function(e){if(e.target===modal)closeSR();};
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSR();});
   document.querySelectorAll('.showreel-btn').forEach(function(btn){
-    btn.onclick=function(e){
-      e.preventDefault(); e.stopPropagation();
-      openSR(btn.getAttribute('data-video')||URL);
-    };
+    btn.onclick=function(e){ e.preventDefault(); e.stopPropagation(); openSR(); };
   });
   var hero=document.getElementById('heroOverlay');
-  if(hero) hero.onclick=function(e){e.preventDefault();openSR(URL);};
+  if(hero) hero.onclick=function(e){e.preventDefault();openSR();};
   var heroSec=document.getElementById('hero');
   if(heroSec) heroSec.addEventListener('click',function(e){
     var t=e.target.tagName.toLowerCase();
     if(t==='a'||t==='button'||e.target.closest('a')||e.target.closest('button'))return;
-    openSR(URL);
+    openSR();
   });
-  window.openShowreelFromHero=function(){openSR(URL);};
+  window.openShowreelFromHero=function(){openSR();};
 })();
 </script>
 <!-- nav scroll handled above -->
