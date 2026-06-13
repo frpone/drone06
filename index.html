@@ -459,7 +459,7 @@ h1, h2, h3 { font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
 /* Grille 4 cartes expertises */
 .expertises-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
 }
 .expertise-card {
@@ -1460,7 +1460,6 @@ img { max-width: 100%; height: auto; }
     <li><a href="#prise-de-vue">Image</a></li>
     <li><a href="#photogrammetrie">Photogrammétrie</a></li>
     <li><a href="#securite">Sécurité</a></li>
-    <li><a href="nettoyage.html">Nettoyage</a></li>
     <li><a href="#formation">Formation</a></li>
     <li><a href="#dr06">DR-06</a></li>
     <li><a href="#adn">ADN</a></li>
@@ -1609,6 +1608,20 @@ nos domaines<br>d'<em>excellence</em>
       <div class="expertise-card-body">
         <div class="expertise-card-num">04</div>
         <div class="expertise-card-title">Innovation DR-06</div>
+      </div>
+      <div class="expertise-card-arrow">
+        <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <!-- 05 Nettoyage aérien -->
+    <a href="nettoyage.html" class="expertise-card" style="text-decoration:none;">
+      <div class="expertise-card-img">
+        <img src="https://images.pexels.com/photos/30496412/pexels-photo-30496412.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop" alt="Nettoyage aérien par drone" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="expertise-card-body">
+        <div class="expertise-card-num">05</div>
+        <div class="expertise-card-title">Nettoyage aérien</div>
       </div>
       <div class="expertise-card-arrow">
         <svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2363,7 +2376,6 @@ window.addEventListener('scroll', function() {
   <a href="#image">Image</a>
   <a href="#photogrammetrie">Photogrammétrie</a>
   <a href="#securite">Sécurité</a>
-  <a href="nettoyage.html">Nettoyage ↗</a>
   <a href="#formation">Formation</a>
   <a href="#dr06">DR-06</a>
   <a href="#adn">ADN</a>
