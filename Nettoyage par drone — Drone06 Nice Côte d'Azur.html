@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nettoyage par drone — Drone06 Nice Côte d'Azur</title>
+<meta name="description" content="Nettoyage de façades, panneaux solaires, toitures et monuments par drone. Drone06 intervient à Nice, Monaco, Cannes. Devis gratuit sous 24h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #0052FF;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --off: #F4F3EF;
+  --grey: #6B6B6B;
+  --line: rgba(0,0,0,0.08);
+  --linew: rgba(255,255,255,0.08);
+  --font: 'Manrope', sans-serif;
+  --pad: 64px;
+  --r: 14px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; overflow-x:hidden; }
+body { font-family:var(--font); background:var(--off); color:var(--black); overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:inherit; text-decoration:none; }
+
+/* ══ CURSOR ══ */
+.cd { position:fixed;top:0;left:0;width:6px;height:6px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
+.cc { position:fixed;top:0;left:0;width:36px;height:36px;border:1.5px solid var(--blue);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s; }
+@media(hover:none){.cd,.cc{display:none}body{cursor:auto}}
+
+/* ══ BTN ══ */
+.btn { display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.04em;border:none;cursor:pointer;transition:all .25s; }
+.btn-blue { background:var(--blue);color:#fff; }
+.btn-blue:hover { background:#0041cc;transform:translateY(-2px); }
+.btn-out { background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4); }
+.btn-out:hover { border-color:#fff; }
+.btn-out-dark { background:transparent;color:var(--black);border:1.5px solid rgba(0,0,0,.2); }
+.btn-out-dark:hover { border-color:var(--blue);color:var(--blue); }
+.btn-lg { padding:16px 40px;font-size:14px; }
+
+/* ══ LABEL ══ */
+.label { display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:16px; }
+.label::before { content:'—';font-weight:400; }
+
+/* ══ NAV ══ */
+#ntog { display:none; }
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:900;height:68px;
+  padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,10,10,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--linew);
+}
+nav.on { background:rgba(10,10,10,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--linew); }
+.nlogo { display:flex;align-items:center;gap:10px; }
+.nlogo img { width:28px;height:28px;object-fit:contain; }
+.nlogo span { font-size:15px;font-weight:800;color:#fff;letter-spacing:-.02em; }
+.nlinks { display:flex;list-style:none;gap:24px;align-items:center; }
+.nlinks a { font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);transition:color .2s; }
+.nlinks a:hover { color:#fff; }
+.nright { display:flex;align-items:center;gap:10px; }
+.nback { font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-right:8px; }
+.nback::before { content:'← '; }
+.nback:hover { color:#fff;text-decoration:underline; }
+.ham { display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px; }
+.ham span { display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s; }
+.nmob {
+  position:fixed;top:68px;left:0;right:0;background:rgba(10,10,10,.98);backdrop-filter:blur(20px);
+  padding:0 18px;z-index:998;max-height:0;overflow:hidden;transition:max-height .35s ease;
+  border-bottom:1px solid var(--linew);
+}
+.nmob a { display:block;font-size:16px;font-weight:600;color:rgba(255,255,255,.85);padding:14px 0;border-bottom:1px solid var(--linew); }
+.nmob a:last-child { border-bottom:none; }
+.nmob .mc { color:var(--blue);font-weight:700; }
+
+/* ══ HERO ══ */
+.hero {
+  position:relative;height:100vh;min-height:580px;
+  display:flex;align-items:flex-end;overflow:hidden;background:var(--black);
+}
+.hero-bg { position:absolute;inset:0;overflow:hidden; }
+.hero-bg img { width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:1; }
+.hero-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 35%,rgba(0,0,0,0) 65%); }
+.hero-content { position:relative;z-index:2;padding:0 var(--pad) 80px;width:100%; }
+.hero-eyebrow { display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#fff;margin-bottom:18px; }
+.hero-eyebrow::before,.hero-eyebrow::after { content:'';width:24px;height:1.5px;background:#fff; }
+.hero-h1 { font-size:clamp(42px,7vw,88px);font-weight:800;letter-spacing:-.04em;color:#fff;line-height:.92;margin-bottom:20px; }
+.hero-h1 em { font-style:normal;color:var(--blue); }
+.hero-sub { font-size:16px;color:rgba(255,255,255,.85);max-width:520px;line-height:1.75;margin-bottom:36px; }
+.hero-btns { display:flex;gap:12px;flex-wrap:wrap; }
+
+/* ══ KPIS ══ */
+.kpis { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line); }
+.kpi { background:var(--white);padding:40px 28px;text-align:center; }
+.kpi-n { font-size:clamp(32px,3.5vw,52px);font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1;margin-bottom:8px; }
+.kpi-n b { font-size:.55em;color:var(--blue);font-weight:800; }
+.kpi-l { font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--grey); }
+
+/* ══ PUNCHLINE ══ */
+.punchline { padding:100px var(--pad);background:var(--off);text-align:center; }
+.punchline-h { font-size:clamp(28px,4.5vw,62px);font-weight:800;letter-spacing:-.04em;line-height:1.0;color:var(--black);max-width:900px;margin:0 auto 20px; }
+.punchline-h em { font-style:normal;color:var(--blue); }
+.punchline-p { font-size:16px;color:var(--grey);line-height:1.8;max-width:580px;margin:0 auto; }
+
+/* ══ SECTION WRAPPER ══ */
+.sec { padding:var(--pad); }
+.sec-dark { background:var(--black);color:#fff; }
+.sec-white { background:var(--white); }
+.sec-off { background:var(--off); }
+.sec-h { font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.0;margin-bottom:10px; }
+.sec-h em { font-style:normal;color:var(--blue); }
+.sec-p { font-size:15px;color:var(--grey);line-height:1.75;max-width:600px;margin-bottom:48px; }
+.sec-dark .sec-p { color:rgba(255,255,255,.45); }
+
+/* ══ PARTICULIERS — section prioritaire ══ */
+.part-grid { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:52px; }
+.part-card {
+  background:var(--white);border-radius:var(--r);padding:44px;
+  border:1px solid var(--line);position:relative;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;
+}
+.part-card:hover { transform:translateY(-4px);box-shadow:0 20px 48px rgba(0,0,0,.09); }
+.part-card.featured { background:var(--black);border-color:transparent; }
+.part-card-tag {
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-bottom:20px;
+}
+.part-card .part-card-tag { background:rgba(0,82,255,.1);color:var(--blue); }
+.part-card.featured .part-card-tag { background:rgba(0,82,255,.25);color:var(--blue); }
+.part-card-title { font-size:clamp(20px,2.2vw,28px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px; }
+.part-card .part-card-title { color:var(--black); }
+.part-card.featured .part-card-title { color:#fff; }
+.part-card-desc { font-size:14px;line-height:1.7;margin-bottom:28px; }
+.part-card .part-card-desc { color:var(--grey); }
+.part-card.featured .part-card-desc { color:rgba(255,255,255,.5); }
+.part-price { display:flex;align-items:baseline;gap:6px;margin-bottom:6px; }
+.part-price-num { font-size:clamp(36px,4vw,56px);font-weight:800;letter-spacing:-.04em; }
+.part-card .part-price-num { color:var(--black); }
+.part-card.featured .part-price-num { color:#fff; }
+.part-price-unit { font-size:22px;font-weight:700; }
+.part-card .part-price-unit { color:var(--grey); }
+.part-card.featured .part-price-unit { color:rgba(255,255,255,.4); }
+.part-price-note { font-size:11px;margin-bottom:28px; }
+.part-card .part-price-note { color:rgba(0,0,0,.35); }
+.part-card.featured .part-price-note { color:rgba(255,255,255,.25); }
+.part-items { display:flex;flex-direction:column;gap:10px;margin-bottom:32px; }
+.part-item { display:flex;align-items:center;gap:10px;font-size:13px; }
+.part-item-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+.part-card .part-item-dot { background:var(--blue); }
+.part-card.featured .part-item-dot { background:var(--blue); }
+.part-card .part-item { color:var(--black); }
+.part-card.featured .part-item { color:rgba(255,255,255,.75); }
+
+/* ══ SERVICES ══ */
+.services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:18px; }
+.scard { background:var(--white);border-radius:var(--r);overflow:hidden;transition:transform .3s,box-shadow .3s; }
+.scard:hover { transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.1); }
+.scard-img { aspect-ratio:4/3;overflow:hidden;position:relative;background:#e0e0e0; }
+.scard-img img { width:100%;height:100%;object-fit:cover;transition:transform .6s; }
+.scard:hover .scard-img img { transform:scale(1.05); }
+.scard-tag { position:absolute;top:12px;left:12px;background:rgba(0,82,255,.88);backdrop-filter:blur(6px);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:20px; }
+.scard-body { padding:22px; }
+.scard-num { font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--blue);margin-bottom:6px; }
+.scard-title { font-size:17px;font-weight:800;color:var(--black);margin-bottom:8px;letter-spacing:-.02em; }
+.scard-desc { font-size:12px;color:var(--grey);line-height:1.65; }
+
+/* ══ AVANTAGES ══ */
+.avantages-grid { display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:52px; }
+.av-col { padding:52px 44px; }
+.av-col.av-bad { background:rgba(0,0,0,.03); }
+.av-col.av-good { background:var(--black); }
+.av-badge { display:inline-block;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:20px; }
+.av-bad .av-badge { background:rgba(0,0,0,.06);color:var(--grey); }
+.av-good .av-badge { background:rgba(0,82,255,.15);color:var(--blue); }
+.av-title { font-size:clamp(20px,2.2vw,28px);font-weight:800;letter-spacing:-.03em;margin-bottom:28px; }
+.av-bad .av-title { color:var(--black); }
+.av-good .av-title { color:#fff; }
+.av-items { display:flex;flex-direction:column;gap:16px; }
+.av-item { display:flex;align-items:flex-start;gap:14px; }
+.av-item-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px; }
+.av-bad .av-item-dot { background:rgba(0,0,0,.2); }
+.av-good .av-item-dot { background:var(--blue); }
+.av-item-text { font-size:15px;font-weight:600;line-height:1.5; }
+.av-bad .av-item-text { color:rgba(0,0,0,.65); }
+.av-good .av-item-text { color:rgba(255,255,255,.85); }
+.av-item-sub { font-size:12px;margin-top:2px;line-height:1.5; }
+.av-bad .av-item-sub { color:rgba(0,0,0,.35); }
+.av-good .av-item-sub { color:rgba(255,255,255,.35); }
+
+/* ══ PROCESS ══ */
+.process-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:52px;position:relative; }
+.process-line { position:absolute;top:27px;left:calc(12.5% + 14px);right:calc(12.5% + 14px);height:1px;background:var(--line); }
+.pstep { text-align:center;padding:0 16px;position:relative;z-index:1; }
+.pdot { width:54px;height:54px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:18px;font-weight:800;color:#fff;box-shadow:0 0 0 8px rgba(0,82,255,.1); }
+.ptitle { font-size:14px;font-weight:800;color:var(--black);margin-bottom:6px; }
+.pdesc { font-size:12px;color:var(--grey);line-height:1.6; }
+
+/* ══ CTA FINAL ══ */
+.ctaf { position:relative;overflow:hidden;padding:120px var(--pad);background:var(--black);text-align:center; }
+.ctaf::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(0,82,255,.18) 0%,transparent 70%); }
+.ctaf-content { position:relative;z-index:1;max-width:640px;margin:0 auto; }
+.ctaf h2 { font-size:clamp(32px,5vw,60px);font-weight:800;color:#fff;letter-spacing:-.04em;line-height:.95;margin-bottom:16px; }
+.ctaf h2 em { font-style:normal;color:var(--blue); }
+.ctaf p { font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;margin-bottom:36px; }
+.ctaf-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+
+/* ══ FOOTER ══ */
+footer { background:var(--black);padding:24px var(--pad);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--linew); }
+.ftl { font-size:13px;font-weight:800;color:rgba(255,255,255,.3); }
+.ftc { font-size:11px;color:rgba(255,255,255,.2); }
+
+/* ══ BEFORE / AFTER SLIDER ══ */
+.sliders-row { display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:52px; }
+.ba-wrap { border-radius:var(--r);overflow:hidden;position:relative;display:block;cursor:col-resize;user-select:none;-webkit-user-select:none; }
+.ba-wrap::before { content:'';display:block;padding-top:100%; }
+.ba-img {
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+}
+.ba-img-before {
+  clip-path:inset(0 50% 0 0);
+}
+.ba-handle { position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none; }
+.ba-line { position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.9); }
+.ba-btn { width:44px;height:44px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,0,0,.35);position:relative;z-index:1;flex-shrink:0; }
+.ba-label { position:absolute;top:14px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);padding:4px 10px;border-radius:20px;pointer-events:none;z-index:10; }
+.ba-label-l { left:14px; }
+.ba-label-r { right:14px; }
+
+/* ══ CONTACT ══ */
+.contact-wrap { display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start; }
+.contact-infos { display:flex;flex-direction:column;gap:20px; }
+.contact-info-item { display:flex;align-items:flex-start;gap:14px; }
+.contact-info-icon { font-size:18px;width:36px;height:36px;background:var(--white);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.08); }
+.contact-info-label { font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);margin-bottom:2px; }
+.contact-info-val { font-size:14px;font-weight:600;color:var(--black);text-decoration:none; }
+.contact-info-val:hover { color:var(--blue); }
+.contact-form-wrap { background:var(--white);border-radius:16px;padding:40px;box-shadow:0 4px 32px rgba(0,0,0,.07); }
+.cfield { margin-bottom:20px; }
+.clabel { display:block;font-size:12px;font-weight:700;color:var(--black);margin-bottom:8px; }
+.cinput { width:100%;padding:13px 16px;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;font-family:var(--font);font-size:14px;color:var(--black);background:#fff;outline:none;transition:border-color .2s;appearance:none; }
+.cinput:focus { border-color:var(--blue); }
+.ctextarea { min-height:110px;resize:vertical; }
+
+/* ══ RESPONSIVE ══ */
+html, body { overflow-x:hidden; }
+@media (max-width:768px) {
+  :root { --pad:18px; }
+  nav { padding:0 18px; background:rgba(10,10,10,.97) !important; border-bottom:1px solid var(--linew) !important; }
+  .nlinks { display:none; }
+  .nright .btn-blue { display:none; }
+  .ham { display:flex !important; }
+  .hero-content { padding:0 18px 56px; }
+  .hero-h1 { font-size:clamp(34px,11vw,54px); }
+  .hero-sub { font-size:13px; }
+  .hero-btns { flex-direction:column; }
+  .hero-btns .btn { width:100%;justify-content:center; }
+  .hero-bg img { object-position:20% 15%; }
+  .kpis { grid-template-columns:1fr 1fr; }
+  .kpi { padding:20px 12px; }
+  .punchline { padding:56px 18px; }
+  .punchline-h { font-size:clamp(22px,7vw,36px); }
+  .punchline-p { font-size:14px; }
+  .part-grid { grid-template-columns:1fr; gap:12px; }
+  .part-card { padding:28px 22px; }
+  .services-grid { grid-template-columns:1fr; }
+  .avantages-grid { grid-template-columns:1fr; }
+  .av-col { padding:32px 18px; }
+  .av-col.av-good { border-radius:var(--r); }
+  .process-grid { grid-template-columns:1fr 1fr;gap:28px; }
+  .process-line { display:none; }
+  .contact-wrap { grid-template-columns:1fr;gap:32px; }
+  .contact-form-wrap { padding:24px 18px; }
+  footer { flex-direction:column;gap:6px;text-align:center;padding:20px 18px; }
+  .sliders-row { grid-template-columns:1fr; }
+  .ba-wrap::before { padding-top:85%; }
+  .sec { padding:48px 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cd" id="cd"></div>
+<div class="cc" id="cc"></div>
+<script>
+(function(){
+  var d=document.getElementById('cd'),r=document.getElementById('cc');
+  if(!d||!r)return;
+  var mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});
+  (function l(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(l);})();
+})();
+</script>
+
+<!-- NAV -->
+<input type="checkbox" id="ntog">
+<nav id="nav">
+  <a href="https://drone-06.com" class="nlogo">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/865hhwy17kspowr8mbosy/logocouleur-rond-blanc.png?rlkey=86tah9irwlntukduqyhse06gb&dl=1" alt="Drone06">
+    <span>Drone06</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#particuliers">Particuliers</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#avantages">Avantages</a></li>
+    <li><a href="#process">Comment ça marche</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://drone-06.com" class="nback">Retour au site</a>
+    <a href="#contact" class="btn btn-blue">Devis gratuit</a>
+    <label class="ham" for="ntog"><span></span><span></span><span></span></label>
+  </div>
+</nav>
+<div class="nmob" id="nmob">
+  <a href="#particuliers">Particuliers</a>
+  <a href="#services">Services</a>
+  <a href="#avantages">Avantages</a>
+  <a href="#process">Comment ça marche</a>
+  <a href="https://drone-06.com">← Retour au site</a>
+  <a href="#contact" class="mc">Devis gratuit →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/c7nthf08mipod4lz4l87c/HOmecleanVDEF3.jpg?rlkey=xg4cfdug11urukdfce6vkr423&dl=1">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Drone06 — Nettoyage aérien</div>
+    <h1 class="hero-h1">Maintenance aérienne<br>de <em>précision.</em></h1>
+    <p class="hero-sub">Façades, panneaux solaires, monuments, toitures — Drone06 nettoie ce que les cordistes ne peuvent pas atteindre. Devis gratuit sous 24h sur toute la Côte d'Azur.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn btn-blue btn-lg">Nos interventions →</a>
+      <a href="#particuliers" class="btn btn-out">Voir les tarifs</a>
+    </div>
+  </div>
+</section>
+
+<!-- KPIS -->
+<div class="kpis">
+  <div class="kpi">
+    <div class="kpi-n">×3<b></b></div>
+    <div class="kpi-l">Plus rapide qu'un cordiste</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n">0<b>€</b></div>
+    <div class="kpi-l">Coût d'échafaudage</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n">100<b>m</b></div>
+    <div class="kpi-l">Hauteur d'intervention</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-n">−30<b>%</b></div>
+    <div class="kpi-l">Coût vs méthodes classiques</div>
+  </div>
+</div>
+
+<!-- PUNCHLINE -->
+<section class="punchline">
+  <h2 class="punchline-h">Façades, toitures, panneaux solaires.<br><em>Drone06 intervient là où les autres renoncent.</em></h2>
+  <p class="punchline-p">Moins de risques. Moins de délais. Moins de coût. Le drone remplace l'échafaudage sans compromis sur le résultat.</p>
+</section>
+
+<!-- SERVICES -->
+<section class="sec sec-white" id="services">
+  <span class="label">Toutes nos interventions</span>
+  <h2 class="sec-h">Chaque surface.<br><em>Chaque hauteur.</em></h2>
+  <p class="sec-p">Du rez-de-chaussée au dernier étage, de la villa au monument historique. Pour les prestations complexes, nous établissons un devis sur mesure.</p>
+
+  <div class="services-grid">
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/korbnr75f327879gg9drw/toitureparticulier.jpg?rlkey=i6v7124udrivzjo6ddonpf7c6&dl=1" alt="Nettoyage toiture par drone Drone06">
+        <div class="scard-tag">Toiture</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">01</div>
+        <div class="scard-title">Toitures & démoussage</div>
+        <div class="scard-desc">Tuiles, ardoises, zinc, bac acier. Démoussage, décroutage, hydrofuge. Résultats durables 3 à 5 ans sur le climat méditerranéen.</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/clp3vppc1r966r1395fmv/VITRES.jpg?rlkey=2z03lf7p377ux65qgeeke4of8&dl=1" alt="Nettoyage façade vitrages par drone Drone06">
+        <div class="scard-tag">Façades</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">02</div>
+        <div class="scard-title">Façades & vitrages</div>
+        <div class="scard-desc">Immeubles résidentiels, tours de bureaux, hôtels de luxe. Nettoyage haute pression ou doux selon les matériaux. Interventions nocturnes possibles.</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/92ptuhwxvtqyg585bio7k/panneaux-solaire.jpg?rlkey=pany1u1y0qkgs66is767ierzw&dl=1" alt="Nettoyage panneaux solaires par drone Drone06">
+        <div class="scard-tag">Solaire</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">03</div>
+        <div class="scard-title">Panneaux solaires</div>
+        <div class="scard-desc">La poussière réduit le rendement jusqu'à 30%. Notre drone nettoie vos panneaux sans pression excessive, sans marcher dessus. Résultats mesurables dès le premier jour.</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/uxivrd754x3pwwoldu7hz/ChatGPT-Image-13-juin-2026-15_27_36.png?rlkey=vdz5pbrovjzevcd2sy63mbc4p&dl=1" alt="Nettoyage monument patrimoine par drone Drone06">
+        <div class="scard-tag">Patrimoine</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">04</div>
+        <div class="scard-title">Monuments & patrimoine</div>
+        <div class="scard-desc">Clochers, cathédrales, bâtiments classés. Protocoles de nettoyage doux adaptés aux pierres calcaires et enduits anciens.</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/4h9rhjtdsuspt1c2l00ef/eolienne.jpg?rlkey=en1dehx1vocup5y4prhbw2l4i&dl=1" alt="Nettoyage éolienne par drone Drone06">
+        <div class="scard-tag">Industrie</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">05</div>
+        <div class="scard-title">Sites industriels & éolien</div>
+        <div class="scard-desc">Hangars, entrepôts, silos, pylônes, éoliennes. Accès aux structures inaccessibles à l'homme. Nettoyage combinable avec inspection technique.</div>
+      </div>
+    </div>
+    <div class="scard">
+      <div class="scard-img">
+        <img src="https://dl.dropboxusercontent.com/scl/fi/4anv1rk3j0p2b33wiwijd/fa-ade-bois-copie.jpg?rlkey=qphe3edz06su3tx63gasn9jhy&dl=1" alt="Nettoyage fin de chantier par drone Drone06">
+        <div class="scard-tag">Construction</div>
+      </div>
+      <div class="scard-body">
+        <div class="scard-num">06</div>
+        <div class="scard-title">Fin de chantier & remise en état</div>
+        <div class="scard-desc">Nettoyage de façades post-construction, élimination des traces de ciment, laitance de béton. Rapport photo avant/après inclus.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVANT / APRÈS -->
+<section class="sec sec-dark" id="avantapres">
+  <span class="label" style="color:var(--blue);">Résultats prouvés</span>
+  <h2 class="sec-h" style="color:#fff;">La preuve<br>par <em>l'image.</em></h2>
+  <p class="sec-p">Vos surfaces retrouvent leur état d'origine. Sans échafaudage. Sans cordiste. Sans délai.</p>
+
+  <div class="sliders-row">
+
+    <!-- SLIDER 1 -->
+    <div class="ba-wrap" id="sl1">
+      <div class="ba-img" style="background-image:url('https://dl.dropboxusercontent.com/scl/fi/d5mb46uvumwoyy9e9g780/APRES.jpg?rlkey=mwhlb34br95m7tcebgxbcby7v&dl=1')"></div>
+      <div class="ba-img ba-img-before" id="sl1-before" style="background-image:url('https://dl.dropboxusercontent.com/scl/fi/kd55dgmbn929oup7wz5lf/avant.jpg?rlkey=gn09our4cq38stnzposhgtait&dl=1')"></div>
+      <div class="ba-handle" id="sl1-handle">
+        <div class="ba-line"></div>
+        <div class="ba-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 9H1M12 9H17M1 9L4 6M1 9L4 12M17 9L14 6M17 9L14 12" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="ba-label ba-label-l">Avant</div>
+      <div class="ba-label ba-label-r">Après</div>
+    </div>
+
+    <!-- SLIDER 2 -->
+    <div class="ba-wrap" id="sl2">
+      <div class="ba-img" style="background-position:center 20%;background-image:url('https://dl.dropboxusercontent.com/scl/fi/tbg3a3siqemsixu5r487u/fa-ade02-cleen.jpg?rlkey=bvgs3cke6x0slf7p0nql7qhpu&dl=1')"></div>
+      <div class="ba-img ba-img-before" id="sl2-before" style="background-position:center 20%;background-image:url('https://dl.dropboxusercontent.com/scl/fi/bx2r8gmhttjpmqv9lnowf/fa-ade02-dirty.jpg?rlkey=o2i0558asl1k4j8yjepihsxju&dl=1')"></div>
+      <div class="ba-handle" id="sl2-handle">
+        <div class="ba-line"></div>
+        <div class="ba-btn"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 9H1M12 9H17M1 9L4 6M1 9L4 12M17 9L14 6M17 9L14 12" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="ba-label ba-label-l">Avant</div>
+      <div class="ba-label ba-label-r">Après</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PARTICULIERS — tarifs -->
+<section class="sec sec-off" id="particuliers">
+  <span class="label">Particuliers & copropriétés</span>
+  <h2 class="sec-h">Toiture, façade.<br><em>Prix clairs.</em></h2>
+  <p class="sec-p">Pour les propriétaires et syndics de la Côte d'Azur — des tarifs lisibles, sans surprise. Devis confirmé après visite ou photos du site.</p>
+
+  <div class="part-grid">
+    <div class="part-card featured">
+      <div class="part-card-tag">Maison individuelle</div>
+      <div class="part-card-title">Intervention seule</div>
+      <div class="part-card-desc">Toiture inférieure à 100 m². Sans monter sur votre toit, sans échafaudage.</div>
+      <div class="part-price">
+        <div class="part-price-num">690€</div>
+      </div>
+      <div class="part-price-unit">TTC / maison</div>
+      <div class="part-price-note">Au-delà de 100 m² : +7,90 € HT/m² supplémentaire</div>
+      <div class="part-items">
+        <div class="part-item"><div class="part-item-dot"></div>Toiture inférieure à 100 m²</div>
+        <div class="part-item"><div class="part-item-dot"></div>Sans monter sur votre toit</div>
+        <div class="part-item"><div class="part-item-dot"></div>Photos avant/après systématiques</div>
+        <div class="part-item"><div class="part-item-dot"></div>Option façade : +100€ TTC / 20 m²</div>
+      </div>
+      <a href="#contact" class="btn btn-blue">Demander un devis →</a>
+    </div>
+    <div class="part-card">
+      <div class="part-card-tag">Syndics & pros</div>
+      <div class="part-card-title">Façades / toitures</div>
+      <div class="part-card-desc">Immeubles, copropriétés, bâtiments professionnels. Tarif au m² pour toutes surfaces.</div>
+      <div class="part-price">
+        <div class="part-price-num">dès 7,90€</div>
+      </div>
+      <div class="part-price-unit">HT / m²</div>
+      <div class="part-price-note">> 400 m² : devis personnalisé possible</div>
+      <div class="part-items">
+        <div class="part-item"><div class="part-item-dot"></div>Façades & toitures tous matériaux</div>
+        <div class="part-item"><div class="part-item-dot"></div>Immeubles de toute hauteur</div>
+        <div class="part-item"><div class="part-item-dot"></div>Zéro perturbation pour les résidents</div>
+        <div class="part-item"><div class="part-item-dot"></div>Rapport photo inclus</div>
+      </div>
+      <a href="#contact" class="btn btn-out-dark">Demander un devis →</a>
+    </div>
+  </div>
+</section>
+
+<!-- AVANTAGES -->
+<section class="sec sec-off" id="avantages">
+  <span class="label">Pourquoi le drone</span>
+  <h2 class="sec-h" style="max-width:640px;">Plus rapide. Plus sûr.<br><em>Moins cher.</em></h2>
+
+  <div class="avantages-grid">
+    <div class="av-col av-bad">
+      <span class="av-badge">Méthodes classiques</span>
+      <div class="av-title">Échafaudages & cordistes</div>
+      <div class="av-items">
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">3 à 10 jours d'attente</div>
+            <div class="av-item-sub">Installation + autorisations voirie</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Coûts élevés</div>
+            <div class="av-item-sub">Échafaudage, main-d'œuvre, assurances</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Activité perturbée</div>
+            <div class="av-item-sub">Accès bloqués, nuisances sonores</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Risques en hauteur</div>
+            <div class="av-item-sub">Accidents de chantier possibles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="av-col av-good">
+      <span class="av-badge">Solution Drone06</span>
+      <div class="av-title">Nettoyage par drone</div>
+      <div class="av-items">
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Intervention en quelques heures</div>
+            <div class="av-item-sub">Devis J+1, intervention J+2 possible</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Jusqu'à −30% de coût</div>
+            <div class="av-item-sub">Zéro échafaudage, équipe réduite</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Zéro perturbation</div>
+            <div class="av-item-sub">Résidents, clients et employés non impactés</div>
+          </div>
+        </div>
+        <div class="av-item">
+          <div class="av-item-dot"></div>
+          <div>
+            <div class="av-item-text">Opérateur au sol</div>
+            <div class="av-item-sub">Sécurité maximale, drone homologué DGAC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec sec-white" id="process">
+  <span class="label">Notre méthode</span>
+  <h2 class="sec-h">De la demande à la<br><em>facture en 72h.</em></h2>
+
+  <div class="process-grid">
+    <div class="process-line"></div>
+    <div class="pstep">
+      <div class="pdot">1</div>
+      <div class="ptitle">Demande de devis</div>
+      <div class="pdesc">Par mail ou téléphone. Réponse sous 24h avec estimation tarifaire.</div>
+    </div>
+    <div class="pstep">
+      <div class="pdot">2</div>
+      <div class="ptitle">Visite ou audit à distance</div>
+      <div class="pdesc">Photos du site suffisent. Évaluation des surfaces, contraintes et protocole de nettoyage.</div>
+    </div>
+    <div class="pstep">
+      <div class="pdot">3</div>
+      <div class="ptitle">Intervention drone</div>
+      <div class="pdesc">Équipe Drone06 sur place. Nettoyage complet, photos avant/après systématiques.</div>
+    </div>
+    <div class="pstep">
+      <div class="pdot">4</div>
+      <div class="ptitle">Rapport & facture</div>
+      <div class="pdesc">Compte rendu d'intervention complet. Contrat de maintenance annuelle en option.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec sec-off" id="contact">
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <span class="label">Contact direct</span>
+      <h2 class="sec-h">Un devis clair<br>en moins de <em>24h.</em></h2>
+      <p style="font-size:15px;color:var(--grey);line-height:1.75;margin-bottom:32px;">Envoyez l'adresse, quelques photos, la surface approximative et le type de support. Nous vous répondons rapidement avec la solution adaptée.</p>
+      <div class="contact-infos">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <div class="contact-info-label">Téléphone</div>
+            <a href="tel:+33651387964" class="contact-info-val">+33 6 51 38 79 64</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div>
+            <div class="contact-info-label">Email</div>
+            <a href="mailto:contact@drone06.com" class="contact-info-val">contact@drone06.com</a>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <div class="contact-info-label">Adresse</div>
+            <div class="contact-info-val">21 Avenue Thiers, 06000 Nice</div>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🗺️</div>
+          <div>
+            <div class="contact-info-label">Zone d'intervention</div>
+            <div class="contact-info-val">Nice · Monaco · Cannes · Var · PACA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-form-wrap">
+        <div class="cfield">
+          <label class="clabel">Nom & prénom</label>
+          <input type="text" class="cinput" placeholder="Votre nom" id="cf-nom">
+        </div>
+        <div class="cfield">
+          <label class="clabel">Email</label>
+          <input type="email" class="cinput" placeholder="votre@email.fr" id="cf-email">
+        </div>
+        <div class="cfield">
+          <label class="clabel">Téléphone</label>
+          <input type="tel" class="cinput" placeholder="06..." id="cf-tel">
+        </div>
+        <div class="cfield">
+          <label class="clabel">Type d'intervention</label>
+          <select class="cinput" id="cf-type">
+            <option value="">Sélectionnez...</option>
+            <option>Toiture — maison individuelle</option>
+            <option>Façade — immeuble / copropriété</option>
+            <option>Panneaux solaires</option>
+            <option>Monument / patrimoine</option>
+            <option>Site industriel / éolien</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="cfield">
+          <label class="clabel">Votre besoin <span style="font-weight:400;color:var(--grey);">(adresse, surface approx., photos disponibles ?)</span></label>
+          <textarea class="cinput ctextarea" placeholder="Ex : Toiture de 120m² à Nice, tuiles provençales, photos disponibles. Intervention souhaitée avant l'été..." id="cf-msg"></textarea>
+        </div>
+        <button class="btn btn-blue btn-lg" style="width:100%;justify-content:center;" onclick="sendMail()">Demander mon devis gratuit →</button>
+        <p style="font-size:11px;color:var(--grey);margin-top:12px;text-align:center;">Réponse garantie sous 24h · Devis sans engagement</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ftl">Drone06 — Nettoyage aérien de précision</div>
+  <div class="ftc">© 2026 Drone06 · <a href="index.html">drone06.com</a></div>
+</footer>
+
+<script>
+/* Send mail */
+function sendMail(){
+  var nom=document.getElementById('cf-nom').value;
+  var email=document.getElementById('cf-email').value;
+  var tel=document.getElementById('cf-tel').value;
+  var type=document.getElementById('cf-type').value;
+  var msg=document.getElementById('cf-msg').value;
+  var subject='Demande de devis nettoyage — Drone06';
+  var body='Nom : '+nom+'\nEmail : '+email+'\nTéléphone : '+tel+'\nType d\'intervention : '+type+'\n\nMessage :\n'+msg;
+  window.location.href='mailto:contact@drone06.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+}
+
+/* NAV scroll */
+(function(){
+  var n=document.getElementById('nav');
+  if(!n)return;
+  function u(){if(window.scrollY>60)n.classList.add('on');else n.classList.remove('on');}
+  window.addEventListener('scroll',u,{passive:true});u();
+})();
+
+/* Hamburger */
+(function(){
+  var t=document.getElementById('ntog'),m=document.getElementById('nmob');
+  if(!t||!m)return;
+  t.addEventListener('change',function(){
+    if(t.checked){m.style.maxHeight='560px';m.style.padding='8px 18px 20px';}
+    else{m.style.maxHeight='0';m.style.padding='0 18px';}
+  });
+  m.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){t.checked=false;m.style.maxHeight='0';m.style.padding='0 18px';});
+  });
+  window.addEventListener('scroll',function(){t.checked=false;m.style.maxHeight='0';m.style.padding='0 18px';},{passive:true});
+})();
+
+/* Scroll reveal */
+(function(){
+  var els=document.querySelectorAll('.scard,.part-card,.pstep,.kpi,.av-col');
+  els.forEach(function(el){el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .6s ease, transform .6s ease';});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';io.unobserve(e.target);}});
+  },{threshold:.1});
+  els.forEach(function(el){io.observe(el);});
+})();
+
+/* Before/After Slider */
+(function(){
+  function initSlider(wrapId, beforeId, handleId) {
+    var wrap = document.getElementById(wrapId);
+    var before = document.getElementById(beforeId);
+    var handle = document.getElementById(handleId);
+    if(!wrap||!before||!handle) return;
+    var dragging = false;
+
+    function setPos(x) {
+      var rect = wrap.getBoundingClientRect();
+      var pct = Math.min(Math.max((x - rect.left) / rect.width, 0.01), 0.99);
+      var p = (pct * 100).toFixed(2);
+      before.style.clipPath = 'inset(0 ' + (100 - p) + '% 0 0)';
+      handle.style.left = p + '%';
+    }
+
+    wrap.addEventListener('mousedown', function(e){ dragging=true; setPos(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove', function(e){ if(dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', function(){ dragging=false; });
+    wrap.addEventListener('touchstart', function(e){ dragging=true; setPos(e.touches[0].clientX); },{passive:true});
+    window.addEventListener('touchmove', function(e){ if(dragging) setPos(e.touches[0].clientX); },{passive:true});
+    window.addEventListener('touchend', function(){ dragging=false; });
+  }
+
+  initSlider('sl1','sl1-before','sl1-handle');
+  initSlider('sl2','sl2-before','sl2-handle');
+})();
+(function(){
+  var h=document.querySelectorAll('h1,h2');
+  h.forEach(function(el){el.style.transition='opacity .8s ease, transform .8s ease';});
+  function c(){h.forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight-20&&r.bottom>0){el.style.opacity='1';el.style.transform='translateY(0)';}else if(r.top>=window.innerHeight){el.style.opacity='0';el.style.transform='translateY(26px)';}});}
+  requestAnimationFrame(function(){requestAnimationFrame(function(){h.forEach(function(el){var r=el.getBoundingClientRect();if(r.top>=window.innerHeight){el.style.opacity='0';el.style.transform='translateY(26px)';}});window.addEventListener('scroll',c,{passive:true});setTimeout(c,100);});});
+})();
+</script>
+</body>
+</html>
