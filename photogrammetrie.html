@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photogrammétrie & jumeaux numériques par drone — Nice | Drone06</title>
+<meta name="description" content="Drone06 conçoit des jumeaux numériques et relevés photogrammétriques par drone, géoréférencés au centimètre — d'un ouvrage d'art à un quartier urbain. RTK certifié, livraison multi-format (3D Tiles, nuage de points, OBJ, orthophoto). Nice & Côte d'Azur.">
+<link rel="canonical" href="https://drone-06.com/photogrammetrie.html">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://drone-06.com/photogrammetrie.html">
+<meta property="og:title" content="Photogrammétrie & jumeaux numériques par drone — Nice | Drone06">
+<meta property="og:description" content="Jumeaux numériques et relevés photogrammétriques par drone, géoréférencés au centimètre. RTK certifié, livraison multi-format. Nice & Côte d'Azur.">
+<meta property="og:image" content="https://dl.dropboxusercontent.com/scl/fi/pgf7rto27lokkyu3r9t5a/NICE-FULL.jpg?rlkey=x91q5d63ghc3n1edvs49q4xo5&dl=1">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Photogrammétrie & jumeaux numériques par drone — Nice | Drone06">
+<meta name="twitter:description" content="Jumeaux numériques et relevés photogrammétriques par drone, géoréférencés au centimètre. Nice & Côte d'Azur.">
+<meta name="twitter:image" content="https://dl.dropboxusercontent.com/scl/fi/pgf7rto27lokkyu3r9t5a/NICE-FULL.jpg?rlkey=x91q5d63ghc3n1edvs49q4xo5&dl=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Photogrammétrie et jumeaux numériques par drone",
+  "provider": {
+    "@type": "ProfessionalService",
+    "name": "Drone06",
+    "url": "https://drone-06.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "21 Avenue Thiers",
+      "addressLocality": "Nice",
+      "postalCode": "06000",
+      "addressCountry": "FR"
+    },
+    "areaServed": "Nice, Alpes-Maritimes, Côte d'Azur"
+  },
+  "description": "Jumeaux numériques et relevés photogrammétriques par drone, géoréférencés au centimètre. Acquisition RTK certifiée, livraison multi-format."
+}
+</script>
+
+<style>
+:root{
+  --ink:#0A0A0A;
+  --blue:#0052FF;
+  --white:#FFFFFF;
+  --grey:#6b6b6b;
+  --line:rgba(255,255,255,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+em{font-style:normal;color:var(--blue);}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;
+  background:rgba(10,10,10,0.72);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nlogo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-0.01em;}
+.nlogo img{width:30px;height:30px;border-radius:50%;}
+.nlinks{display:flex;gap:30px;list-style:none;}
+.nlinks a{font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);transition:color .2s;}
+.nlinks a:hover{color:var(--white);}
+.nright{display:flex;align-items:center;gap:18px;}
+.nback{font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);}
+.nback:hover{color:var(--white);}
+.btn{display:inline-block;border-radius:40px;font-weight:600;transition:all .2s;cursor:pointer;}
+.btn-blue{background:var(--blue);color:#fff;padding:11px 22px;font-size:13px;}
+.btn-blue:hover{background:#0042cc;}
+.btn-out{border:1px solid rgba(255,255,255,0.3);color:#fff;padding:11px 22px;font-size:13px;}
+.btn-out:hover{border-color:#fff;}
+.btn-lg{padding:15px 30px;font-size:15px;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.ham span{width:24px;height:2px;background:#fff;border-radius:2px;}
+#ntog{display:none;}
+.nmob{display:none;}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 40px 80px;}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,0.92) 0%,rgba(10,10,10,0.65) 45%,rgba(10,10,10,0.25) 100%);}
+.hero-content{position:relative;z-index:2;max-width:760px;}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;}
+.hero h1{font-size:clamp(40px,6vw,76px);font-weight:800;line-height:1.02;letter-spacing:-0.03em;margin-bottom:24px;}
+.hero-sub{font-size:clamp(16px,2vw,20px);font-weight:300;line-height:1.55;color:rgba(255,255,255,0.82);max-width:600px;margin-bottom:34px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* KPIS */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.kpi{padding:38px 30px;border-right:1px solid var(--line);}
+.kpi:last-child{border-right:none;}
+.kpi-n{font-size:42px;font-weight:800;letter-spacing:-0.02em;}
+.kpi-n b{color:var(--blue);font-weight:800;}
+.kpi-l{font-size:13px;color:var(--grey);margin-top:6px;}
+
+/* SECTIONS */
+.sec{padding:100px 40px;max-width:1180px;margin:0 auto;}
+.label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);margin-bottom:18px;}
+.sec-h{font-size:clamp(30px,4.5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-0.025em;margin-bottom:22px;}
+.sec-p{font-size:18px;font-weight:300;line-height:1.6;color:rgba(255,255,255,0.7);max-width:680px;}
+
+/* IMAGE BAND */
+.band{width:100%;height:clamp(260px,42vw,560px);overflow:hidden;}
+.band img{width:100%;height:100%;object-fit:cover;display:block;}
+.band-cap{max-width:1180px;margin:18px auto 0;padding:0 40px;font-size:14px;color:var(--grey);}
+
+/* USAGES */
+.usages{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:50px;}
+.ucard{border:1px solid var(--line);border-radius:16px;padding:34px;transition:border-color .25s,transform .25s;}
+.ucard:hover{border-color:rgba(0,82,255,0.5);transform:translateY(-4px);}
+.unum{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+.utitle{font-size:22px;font-weight:700;margin-bottom:10px;}
+.udesc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+
+/* MÉTHODE */
+.sub-label{font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin:46px 0 20px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.step{border-top:2px solid var(--blue);padding-top:20px;}
+.step-num{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;}
+.step-text{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+
+/* FORMATS */
+.formats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.fmt{border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center;}
+.fmt-ext{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:0.04em;}
+.fmt-name{font-size:17px;font-weight:700;margin:10px 0 6px;}
+.fmt-use{font-size:12px;color:var(--grey);}
+
+/* PRECISION */
+.precision{display:flex;align-items:center;gap:30px;margin-top:46px;padding:34px;border:1px solid var(--line);border-radius:16px;background:rgba(0,82,255,0.05);}
+.precision-stat{font-size:54px;font-weight:800;letter-spacing:-0.03em;line-height:1;}
+.precision-stat sup{font-size:20px;color:var(--blue);}
+.precision-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+.precision-text{font-size:14px;font-weight:300;line-height:1.5;color:rgba(255,255,255,0.6);}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
+.pill{border:1px solid var(--line);border-radius:40px;padding:10px 18px;font-size:14px;color:rgba(255,255,255,0.8);}
+.pill strong{color:var(--blue);font-weight:700;margin-right:8px;}
+
+/* DISCIPLINES */
+.disc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:40px;}
+.disc div{background:var(--ink);padding:26px 24px;font-size:15px;font-weight:600;}
+
+/* CONFIDENTIALITÉ */
+.models{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px;}
+.model{border:1px solid var(--line);border-radius:16px;padding:34px;}
+.model-tag{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
+.model-title{font-size:22px;font-weight:700;margin-bottom:12px;}
+.model-desc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+
+/* CTA */
+.cta{text-align:center;padding:90px 40px;border-top:1px solid var(--line);}
+.cta-h{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-0.025em;margin-bottom:24px;}
+
+/* FOOTER */
+footer{padding:50px 40px;border-top:1px solid var(--line);text-align:center;color:var(--grey);font-size:13px;}
+footer a{color:rgba(255,255,255,0.75);}
+footer a:hover{color:#fff;}
+.fcredit{margin-top:10px;font-size:12px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:16px 20px;}
+  .nlinks{display:none;}
+  .ham{display:flex;}
+  #ntog:checked ~ .nmob{display:flex;}
+  .nmob{position:fixed;top:62px;left:0;right:0;z-index:99;flex-direction:column;background:rgba(10,10,10,0.97);backdrop-filter:blur(14px);padding:20px;border-bottom:1px solid var(--line);}
+  .nmob a{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px;}
+  .nmob a:last-child{border-bottom:none;}
+  .nmob .mc{color:var(--blue);font-weight:700;}
+  .hero{padding:120px 20px 60px;}
+  .hero-overlay{background:linear-gradient(180deg,rgba(10,10,10,0.55) 0%,rgba(10,10,10,0.9) 100%);}
+  .sec{padding:64px 20px;}
+  .kpis{grid-template-columns:repeat(2,1fr);}
+  .kpi:nth-child(2){border-right:none;}
+  .kpi:nth-child(1),.kpi:nth-child(2){border-bottom:1px solid var(--line);}
+  .usages,.formats,.steps,.disc,.models{grid-template-columns:1fr;}
+  .band-cap,.sec{padding-left:20px;padding-right:20px;}
+  .precision{flex-direction:column;text-align:center;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<input type="checkbox" id="ntog">
+<nav>
+  <a href="https://drone-06.com" class="nlogo">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/865hhwy17kspowr8mbosy/logocouleur-rond-blanc.png?rlkey=86tah9irwlntukduqyhse06gb&dl=1" alt="Drone06">
+    <span>Drone06</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#usages">Usages</a></li>
+    <li><a href="#methode">Méthode</a></li>
+    <li><a href="#formats">Formats</a></li>
+    <li><a href="#disciplines">Disciplines</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://drone-06.com" class="nback">Retour au site</a>
+    <a href="mailto:contact@drone-06.com" class="btn btn-blue">Discuter d'un projet</a>
+    <label class="ham" for="ntog"><span></span><span></span><span></span></label>
+  </div>
+</nav>
+<div class="nmob">
+  <a href="#usages">Usages</a>
+  <a href="#methode">Méthode</a>
+  <a href="#formats">Formats</a>
+  <a href="#disciplines">Disciplines</a>
+  <a href="https://drone-06.com">← Retour au site</a>
+  <a href="mailto:contact@drone-06.com" class="mc">Discuter d'un projet →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://dl.dropboxusercontent.com/scl/fi/pgf7rto27lokkyu3r9t5a/NICE-FULL.jpg?rlkey=x91q5d63ghc3n1edvs49q4xo5&dl=1" alt="Jumeau numérique 3D par drone — Nice Côte d'Azur">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Acquisition géospatiale — Drone06</div>
+    <h1>Le territoire comme<br>matière <em>mesurable.</em></h1>
+    <p class="hero-sub">Jumeaux numériques et relevés photogrammétriques par drone, géoréférencés au centimètre — d'un ouvrage d'art à un quartier urbain. Une donnée mesurable, navigable, exploitable. Nice & Côte d'Azur.</p>
+    <div class="hero-btns">
+      <a href="#usages" class="btn btn-blue btn-lg">Découvrir nos usages →</a>
+      <a href="mailto:contact@drone-06.com" class="btn btn-out btn-lg">Discuter d'un projet</a>
+    </div>
+  </div>
+</section>
+
+<!-- KPIS -->
+<div class="kpis">
+  <div class="kpi"><div class="kpi-n">RTK</div><div class="kpi-l">Acquisition certifiée</div></div>
+  <div class="kpi"><div class="kpi-n">9</div><div class="kpi-l">Disciplines géospatiales</div></div>
+  <div class="kpi"><div class="kpi-n">4</div><div class="kpi-l">Formats de livraison</div></div>
+  <div class="kpi"><div class="kpi-n">cm</div><div class="kpi-l">Précision centimétrique</div></div>
+</div>
+
+<!-- INTRO -->
+<section class="sec">
+  <span class="label">Jumeau numérique & photogrammétrie</span>
+  <h2 class="sec-h">Le jumeau numérique<br>n'est pas <em>une carte.</em></h2>
+  <p class="sec-p">Le jumeau numérique est une réplique exacte d'un site, capturée par drone, géoréférencée au centimètre, restituée en trois dimensions. Drone06 conçoit des jumeaux numériques sur mesure — d'un ouvrage d'art à un site industriel, d'un quartier urbain à un domaine privé. Quelle que soit l'échelle, la même exigence : une donnée mesurable, navigable, exploitable.</p>
+</section>
+
+<!-- BAND — animation cartographique -->
+<div class="band">
+  <img src="https://dl.dropboxusercontent.com/scl/fi/xdefv5eye4v7vvi1nx3ne/carto.gif?rlkey=2kuxbsbh3vhhb0976xxe698jb&dl=1" alt="Jumeau numérique — animation cartographique 3D" loading="lazy" decoding="async">
+</div>
+
+<!-- USAGES -->
+<section class="sec" id="usages">
+  <span class="label">Une donnée, tous les usages</span>
+  <h2 class="sec-h">Visible, mesurable,<br><em>exportable.</em></h2>
+  <p class="sec-p">Un environnement complet dans lequel chaque élément — bâtiment, voirie, mobilier, végétation — est visible, mesurable, exportable.</p>
+  <div class="usages">
+    <div class="ucard">
+      <div class="unum">→ 01 / Public</div>
+      <div class="utitle">Services techniques</div>
+      <p class="udesc">Planifier un aménagement, simuler un chantier, contrôler la conformité du bâti.</p>
+    </div>
+    <div class="ucard">
+      <div class="unum">→ 02 / Réseaux</div>
+      <div class="utitle">Opérateurs réseaux</div>
+      <p class="udesc">Poser une antenne, tracer un câble, calculer un volume sans déplacement terrain.</p>
+    </div>
+    <div class="ucard">
+      <div class="unum">→ 03 / Conception</div>
+      <div class="utitle">Urbanistes & architectes</div>
+      <p class="udesc">Modéliser une ombre portée, étudier une densité, projeter une transformation.</p>
+    </div>
+    <div class="ucard">
+      <div class="unum">→ 04 / Risque</div>
+      <div class="utitle">Assureurs & experts</div>
+      <p class="udesc">Qualifier un risque, dater un état des lieux, documenter un sinistre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BAND — nuage de points -->
+<div class="band">
+  <img src="https://dl.dropboxusercontent.com/scl/fi/w3epi835uf6poum8wuz5t/nuage-de-points.jpg?rlkey=rrx8uug09elrl9jgxja0up5n1&dl=1" alt="Nuage de points 3D géoréférencé — détail urbain" loading="lazy" decoding="async">
+</div>
+<p class="band-cap">Au cœur du jumeau, un nuage de points 3D géoréférencé — la donnée brute dont se déduisent maillage, mesures, volumes et coupes.</p>
+
+<!-- MÉTHODE -->
+<section class="sec" id="methode">
+  <span class="label">La méthode</span>
+  <h2 class="sec-h">De l'acquisition<br>à la <em>livraison.</em></h2>
+
+  <div class="sub-label">→ Processus</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 / Acquisition</div>
+      <div class="step-text">Vol photogrammétrique RTK certifié — plan de vol croisé, recouvrement 80 % / 80 %.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02 / Calcul</div>
+      <div class="step-text">Photogrammétrie haute densité — plusieurs centaines de millions de points colorimétriques.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03 / Livraison</div>
+      <div class="step-text">Restitution multi-format adaptée à chaque environnement client.</div>
+    </div>
+  </div>
+
+  <div class="precision">
+    <div class="precision-stat">x,x<sup>cm</sup></div>
+    <div>
+      <div class="precision-label">Précision absolue X / Y / Z</div>
+      <p class="precision-text">Précision certifiée par mesure RTK et points de contrôle au sol — valeur confidentielle, communiquée sur demande dans le cadre d'un projet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="sec" id="formats">
+  <span class="label">Formats de restitution</span>
+  <h2 class="sec-h">Exploitable<br>dans <em>vos outils.</em></h2>
+  <div class="formats">
+    <div class="fmt"><div class="fmt-ext">3D Tiles</div><div class="fmt-name">Streamable web</div><div class="fmt-use">Cesium · ArcGIS · QGIS</div></div>
+    <div class="fmt"><div class="fmt-ext">.LAS / .PLY</div><div class="fmt-name">Nuage de points</div><div class="fmt-use">Donnée brute 3D</div></div>
+    <div class="fmt"><div class="fmt-ext">.OBJ</div><div class="fmt-name">Maillage texturé</div><div class="fmt-use">3D modélisable</div></div>
+    <div class="fmt"><div class="fmt-ext">.TIF</div><div class="fmt-name">Orthophoto</div><div class="fmt-use">Géoréférencée</div></div>
+  </div>
+  <div class="sub-label">→ Référentiels disponibles</div>
+  <div class="pills">
+    <div class="pill"><strong>FR</strong>RGF93 / Lambert-93</div>
+    <div class="pill"><strong>FR</strong>NGF-IGN69</div>
+    <div class="pill"><strong>INT</strong>WGS84 / UTM</div>
+  </div>
+</section>
+
+<!-- DISCIPLINES -->
+<section class="sec" id="disciplines">
+  <span class="label">Nos disciplines géospatiales</span>
+  <h2 class="sec-h">Neuf disciplines,<br>un seul <em>relevé.</em></h2>
+  <p class="sec-p">De l'acquisition brute jusqu'au plan technique normé, exportable dans tous les formats standards.</p>
+  <div class="disc">
+    <div>Modèle Numérique de Terrain (MNT)</div>
+    <div>Modèle Numérique de Surface (MNS)</div>
+    <div>Plan topographique</div>
+    <div>Orthomosaïque</div>
+    <div>Rapport d'extraction</div>
+    <div>Rapport de cubatures</div>
+    <div>Nuage de points</div>
+    <div>Profil en travers</div>
+    <div>Relevé LIDAR par drone</div>
+  </div>
+</section>
+
+<!-- CONFIDENTIALITÉ -->
+<section class="sec">
+  <span class="label">Confidentiel par construction</span>
+  <h2 class="sec-h">Deux modèles<br>d'<em>accès.</em></h2>
+  <p class="sec-p">Selon la nature du projet, deux modèles d'accès — toujours sous principe d'usage exclusif, jamais de redistribution.</p>
+  <div class="models">
+    <div class="model">
+      <div class="model-tag">Modèle 01</div>
+      <div class="model-title">Hébergement Drone06</div>
+      <p class="model-desc">La donnée reste sur notre infrastructure centralisée, accès tokenisé par client. Le client consulte et exploite via ses propres outils SIG.</p>
+    </div>
+    <div class="model">
+      <div class="model-tag">Modèle 02</div>
+      <div class="model-title">Droit d'usage exclusif</div>
+      <p class="model-desc">La donnée est livrée intégralement au client, sous droit d'usage encadré — périmètre d'exploitation contractualisé, aucune redistribution.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="cta-h">Discuter d'un <em>projet.</em></h2>
+  <a href="mailto:contact@drone-06.com" class="btn btn-blue btn-lg">contact@drone-06.com</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="https://drone-06.com">← Retour au site Drone06</a>
+  <div class="fcredit">© 2026 Drone06 — Acquisition géospatiale · Nice, Côte d'Azur</div>
+</footer>
+
+</body>
+</html>
