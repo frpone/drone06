@@ -52,8 +52,10 @@
 :root{
   --ink:#0A0A0A;
   --blue:#0052FF;
+  --green:#2ECC8A;
+  --amber:#F5A623;
   --white:#FFFFFF;
-  --grey:#6b6b6b;
+  --grey:#a7a7a7;
   --line:rgba(255,255,255,0.10);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -99,9 +101,14 @@ nav{
 /* HERO */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 40px 80px;}
 .hero-bg{position:absolute;inset:0;z-index:0;}
-.hero-bg img{width:100%;height:100%;object-fit:cover;}
-.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,0.92) 0%,rgba(10,10,10,0.65) 45%,rgba(10,10,10,0.25) 100%);}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 42%;filter:saturate(1.10) contrast(1.04) brightness(1.0);}
+.hero-overlay{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(10,10,10,0.66) 0%,rgba(10,10,10,0.28) 42%,rgba(10,10,10,0) 72%),
+             radial-gradient(80% 60% at 18% 62%,rgba(0,82,255,0.16),transparent 60%);}
 .hero-content{position:relative;z-index:2;max-width:760px;}
+.hero h1{text-shadow:0 2px 40px rgba(0,0,0,0.55);}
+.hero-sub{text-shadow:0 1px 20px rgba(0,0,0,0.6);}
+.hero .eyebrow{color:#fff;font-size:15px;letter-spacing:0.26em;text-shadow:0 2px 22px rgba(0,0,0,0.75);}
 .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--blue);margin-bottom:24px;}
 .hero h1{font-size:clamp(40px,6vw,76px);font-weight:800;line-height:1.02;letter-spacing:-0.03em;margin-bottom:24px;}
 .hero-sub{font-size:clamp(16px,2vw,20px);font-weight:300;line-height:1.55;color:rgba(255,255,255,0.82);max-width:600px;margin-bottom:34px;}
@@ -132,14 +139,14 @@ nav{
 .ucard:hover{border-color:rgba(0,82,255,0.5);transform:translateY(-4px);}
 .unum{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
 .utitle{font-size:22px;font-weight:700;margin-bottom:10px;}
-.udesc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+.udesc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.75);}
 
 /* MÉTHODE */
 .sub-label{font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin:46px 0 20px;}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
 .step{border-top:2px solid var(--blue);padding-top:20px;}
 .step-num{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;}
-.step-text{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+.step-text{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.75);}
 
 /* FORMATS */
 .formats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
@@ -153,7 +160,7 @@ nav{
 .precision-stat{font-size:54px;font-weight:800;letter-spacing:-0.03em;line-height:1;}
 .precision-stat sup{font-size:20px;color:var(--blue);}
 .precision-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
-.precision-text{font-size:14px;font-weight:300;line-height:1.5;color:rgba(255,255,255,0.6);}
+.precision-text{font-size:14px;font-weight:300;line-height:1.5;color:rgba(255,255,255,0.75);}
 
 /* PILLS */
 .pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
@@ -169,7 +176,7 @@ nav{
 .model{border:1px solid var(--line);border-radius:16px;padding:34px;}
 .model-tag{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
 .model-title{font-size:22px;font-weight:700;margin-bottom:12px;}
-.model-desc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.65);}
+.model-desc{font-size:15px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.75);}
 
 /* CTA */
 .cta{text-align:center;padding:90px 40px;border-top:1px solid var(--line);}
@@ -201,6 +208,262 @@ footer a:hover{color:#fff;}
   .band-cap,.sec{padding-left:20px;padding-right:20px;}
   .precision{flex-direction:column;text-align:center;align-items:flex-start;}
 }
+
+/* ===== BLOCS AJOUTÉS v2 ===== */
+
+/* HOW — comment ça marche */
+.how{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:46px;}
+.how-steps{display:flex;flex-direction:column;gap:16px;}
+.hstep{border:1px solid var(--line);border-radius:16px;padding:24px 26px;}
+.hstep .hn{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);}
+.hstep h4{font-size:19px;font-weight:700;margin:8px 0 8px;}
+.hstep p{font-size:14.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.75);}
+.hstep .hm{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--grey);}
+.hstep .hm b{color:var(--white);font-weight:700;}
+.how-media{border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;aspect-ratio:4/5;max-height:520px;background:#000;}
+.how-media img{width:100%;height:100%;object-fit:cover;display:block;}
+.how-media figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;font-size:12.5px;color:rgba(255,255,255,0.85);
+  background:linear-gradient(transparent,rgba(0,0,0,0.85));}
+.how-media .tagr{position:absolute;top:14px;left:14px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:#001; background:rgba(46,224,138,0.9);padding:5px 10px;border-radius:20px;}
+
+/* LIVRABLES A/B/C */
+.livrables{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;}
+.lcard{position:relative;border:1px solid var(--line);border-radius:18px;padding:30px 28px 26px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);transition:border-color .25s,transform .25s;}
+.lcard::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--tag);}
+.lcard:hover{transform:translateY(-5px);border-color:var(--tag);}
+.lcard .ll{font-size:52px;font-weight:800;line-height:1;color:var(--tag);letter-spacing:-0.03em;}
+.lcard h4{font-size:20px;font-weight:700;margin:12px 0 10px;}
+.lcard p{font-size:14.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.75);}
+.lcard .lfmt{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:11.5px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--grey);line-height:1.7;}
+.lA{--tag:var(--blue);} .lB{--tag:var(--green);} .lC{--tag:var(--amber);}
+.trust{margin-top:22px;font-size:13.5px;color:var(--grey);display:flex;align-items:center;gap:10px;}
+.trust b{color:rgba(255,255,255,0.8);font-weight:700;}
+
+/* INTEGRATION */
+.integ{margin-top:44px;border:1px solid var(--line);border-radius:20px;padding:44px 40px;
+  background:radial-gradient(120% 120% at 0% 0%,rgba(0,82,255,0.10),transparent 60%);}
+.integ h3{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-0.02em;line-height:1.08;max-width:20ch;}
+.integ p{font-size:16px;font-weight:300;line-height:1.6;color:rgba(255,255,255,0.72);max-width:64ch;margin-top:16px;}
+.integ p b{color:var(--white);font-weight:600;}
+
+/* DEMOS confidentielles */
+.demos{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:44px;}
+.demo{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;aspect-ratio:16/10;}
+.demo img{width:100%;height:100%;object-fit:cover;filter:blur(7px) brightness(0.5) saturate(0.8);transform:scale(1.08);}
+.demo .dc{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;}
+.demo .dlock{position:absolute;top:16px;right:18px;font-size:12px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.8);
+  display:flex;align-items:center;gap:7px;}
+.demo h4{font-size:20px;font-weight:700;}
+.demo .dsub{font-size:13px;color:rgba(255,255,255,0.75);margin-top:5px;}
+.demo .dtag{display:inline-block;margin-top:16px;font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--blue);border:1px solid rgba(0,82,255,0.5);border-radius:30px;padding:8px 15px;background:rgba(0,82,255,0.08);width:fit-content;}
+
+/* APPLICATION — de la donnée à l'image */
+.appwrap{padding:100px 0 0;}
+.app-head{max-width:1180px;margin:0 auto;padding:0 40px;}
+.film{position:relative;width:100%;margin-top:44px;background:#000;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.film video{width:100%;height:clamp(300px,60vh,680px);object-fit:cover;display:block;}
+.film-cap{position:absolute;left:0;bottom:0;padding:26px 40px;max-width:720px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.82));}
+.film-cap .fk{font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);}
+.film-cap h3{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-0.02em;margin:10px 0 8px;}
+.film-cap p{font-size:14.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.78);}
+.proofduo{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:1180px;margin:44px auto 0;padding:0 40px;}
+.proof{border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+.proof img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;}
+.proof .pc{padding:20px 22px;}
+.proof .pk{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);}
+.proof h4{font-size:17px;font-weight:700;margin:8px 0 6px;}
+.proof p{font-size:13.5px;font-weight:300;line-height:1.5;color:rgba(255,255,255,0.62);}
+
+@media(max-width:900px){
+  .how,.livrables,.demos,.proofduo{grid-template-columns:1fr;}
+  .film video{height:46vh;}
+  .film-cap,.app-head,.proofduo{padding-left:20px;padding-right:20px;}
+  .integ{padding:30px 24px;}
+}
+
+/* ===== RÉVISION v3 — allègement + pop-ups ===== */
+
+/* texte intro : mots-clés en gras */
+.sec-p b{color:var(--white);font-weight:700;}
+
+/* illustration filaire (drone sur ville) */
+.illus{margin:38px 0 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:radial-gradient(120% 150% at 50% 0%,rgba(0,82,255,0.10),transparent 68%);}
+.illus svg{display:block;width:100%;height:auto;}
+
+/* précision — bandeau slim */
+.pslim{max-width:1180px;margin:0 auto;padding:70px 40px;}
+
+/* audiences — chips cliquables + pop-up */
+.aud{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+.audbtn{font:inherit;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--white);
+  border-radius:40px;padding:13px 22px;font-size:15px;font-weight:600;transition:border-color .2s,background .2s;
+  display:inline-flex;align-items:center;gap:10px;}
+.audbtn:hover{border-color:var(--blue);background:rgba(0,82,255,0.08);}
+.audbtn::after{content:"+";color:var(--blue);font-weight:700;font-size:17px;line-height:1;}
+.aud-hint{margin-top:16px;font-size:13.5px;font-weight:700;color:var(--white);}
+.aud-band{margin-top:34px;border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;}
+.aud-band img{width:100%;height:clamp(230px,30vw,370px);object-fit:cover;display:block;}
+.aud-band figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 26px;
+  font-size:13.5px;color:rgba(255,255,255,0.9);background:linear-gradient(transparent,rgba(0,0,0,0.8));}
+.aud-band figcaption b{color:#fff;font-weight:700;}
+.aud-strip{margin-top:34px;border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative;}
+.aud-strip img{width:100%;height:auto;display:block;}
+.aud-strip figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 22px;font-size:13px;color:rgba(255,255,255,0.85);
+  background:linear-gradient(transparent,rgba(0,0,0,0.55));text-align:center;pointer-events:none;}
+.aud-strip figcaption b{color:#fff;font-weight:700;}
+
+/* métiers — gros, avec rôle */
+.roles{margin-top:40px;border-top:1px solid var(--line);}
+.role{display:flex;gap:24px;align-items:flex-start;padding:24px 6px;border-bottom:1px solid var(--line);
+  transition:padding-left .25s,background .25s;}
+.role:hover{padding-left:16px;background:rgba(0,82,255,0.05);}
+.role .rn{font-size:15px;font-weight:700;color:var(--blue);min-width:32px;padding-top:8px;}
+.role h3{font-size:clamp(24px,3.6vw,40px);font-weight:800;letter-spacing:-0.025em;line-height:1;}
+.role .rt p{font-size:15px;font-weight:300;color:rgba(255,255,255,0.75);margin-top:10px;}
+
+/* paire d'images côte à côte */
+.audpair{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;}
+.audpair figure{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+.audpair img{width:100%;height:clamp(200px,23vw,290px);object-fit:cover;display:block;}
+.audpair figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;font-size:13.5px;
+  color:rgba(255,255,255,0.9);background:linear-gradient(transparent,rgba(0,0,0,0.82));}
+.audpair figcaption b{color:#fff;font-weight:700;}
+@media(max-width:900px){.role h3{font-size:24px;}.audpair{grid-template-columns:1fr;}}
+
+/* sections techniques 2 colonnes (texte + nuage de points) */
+.techrow{display:grid;grid-template-columns:1.02fr 0.98fr;gap:48px;align-items:center;}
+.techimg{position:relative;border:1px solid rgba(0,0,0,0.10);border-radius:16px;overflow:hidden;}
+.techimg img{width:100%;height:clamp(260px,32vw,400px);object-fit:cover;display:block;}
+.techimg figcaption{position:absolute;left:0;right:0;bottom:0;padding:15px 18px;font-size:12.5px;font-weight:600;
+  color:#fff;background:linear-gradient(transparent,rgba(0,0,0,0.74));}
+@media(max-width:900px){.techrow{grid-template-columns:1fr;gap:28px;}}
+
+/* REVEAL — fil de fer qui se dessine puis fondu vidéo */
+.revealwrap{position:relative;height:clamp(300px,60vh,680px);background:#070a12;}
+.revealwrap .rv-grid,.revealwrap .rv-wire,.revealwrap .rv-video{position:absolute;inset:0;width:100%;height:100%;}
+.rv-grid{background:#070a12;
+  background-image:linear-gradient(rgba(61,130,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(61,130,255,.13) 1px,transparent 1px);
+  background-size:46px 46px;opacity:0;transition:opacity .6s ease;}
+.rv-wire{object-fit:cover;clip-path:inset(0 100% 0 0);opacity:.95;
+  filter:drop-shadow(0 0 6px rgba(61,130,255,.5));}
+.rv-video{object-fit:cover;opacity:0;transition:opacity .7s ease;}
+.rv-scan{position:absolute;top:0;bottom:0;left:-12%;width:90px;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(143,180,255,.85),transparent);
+  box-shadow:0 0 40px 12px rgba(61,130,255,.45);}
+.revealwrap.go .rv-grid{opacity:1;}
+.revealwrap.go .rv-wire{animation:rvdraw 3.6s cubic-bezier(.45,0,.25,1) forwards;}
+.revealwrap.go .rv-scan{animation:rvscan 3.6s cubic-bezier(.45,0,.25,1) forwards;}
+.revealwrap.go2 .rv-video{opacity:1;}
+.revealwrap.go2 .rv-grid,.revealwrap.go2 .rv-wire,.revealwrap.go2 .rv-scan{opacity:0;transition:opacity .7s ease;}
+@keyframes rvdraw{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0 0 0);}}
+@keyframes rvscan{0%{left:-12%;opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{left:100%;opacity:0;}}
+@media(prefers-reduced-motion:reduce){
+  .rv-wire,.rv-scan,.rv-grid{display:none;}.rv-video{opacity:1;}
+}
+
+/* bouton « voir plus » -> pop-up */
+.morebtn{margin-top:30px;font:inherit;cursor:pointer;border:1px solid var(--blue);color:#fff;
+  background:rgba(0,82,255,0.10);border-radius:40px;padding:14px 26px;font-size:14px;font-weight:600;
+  display:inline-flex;align-items:center;gap:10px;transition:background .2s;}
+.morebtn:hover{background:var(--blue);}
+.morebtn::after{content:"→";}
+
+/* POP-UPS natifs */
+[popover]{margin:auto;border:1px solid var(--line);background:#111318;color:var(--white);border-radius:18px;
+  padding:32px;max-width:460px;width:calc(100% - 40px);box-shadow:0 30px 90px rgba(0,0,0,0.65);}
+[popover]::backdrop{background:rgba(0,0,0,0.62);backdrop-filter:blur(3px);}
+[popover].pop-wide{max-width:760px;}
+.pop-k{font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);}
+.pop-t{font-size:23px;font-weight:800;letter-spacing:-0.01em;margin:10px 0 14px;}
+.pop-d{font-size:15px;font-weight:300;line-height:1.6;color:rgba(255,255,255,0.74);}
+.pop-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px;}
+.pop-cell{border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+.pop-cell .pe{font-size:13px;font-weight:700;color:var(--blue);}
+.pop-cell .pn{font-size:15px;font-weight:700;margin:6px 0 3px;}
+.pop-cell .pu{font-size:12px;color:var(--grey);}
+.pop-disc{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.pop-disc li{border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:14px;font-weight:600;}
+.pop-refs{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+.pop-refs .pill{font-size:13px;}
+.pop-close{margin-top:24px;font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:30px;
+  padding:10px 20px;font-size:13px;font-weight:600;background:transparent;color:#fff;}
+.pop-close:hover{border-color:#fff;}
+
+/* livrables — ruban formule */
+.lribbon{position:absolute;top:18px;right:20px;font-size:11px;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--tag);}
+.lsub{margin-top:14px;}
+
+/* dégradé vidéo pleine largeur (fix) */
+.film::after{content:"";position:absolute;left:0;right:0;bottom:0;height:60%;z-index:1;pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,0.88));}
+.film-cap{background:none!important;z-index:2;}
+
+/* bande écran pleine largeur (entre chapitres) */
+.screenband{position:relative;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;background:#000;}
+.screenband img{width:100%;height:clamp(280px,44vw,540px);object-fit:cover;object-position:center 42%;display:block;}
+.screenband::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,0.82));}
+.screenband figcaption{position:absolute;left:0;bottom:0;z-index:2;padding:26px 40px;max-width:820px;}
+.screenband .sk{font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);}
+.screenband figcaption p{font-size:clamp(16px,2vw,22px);font-weight:700;letter-spacing:-0.01em;margin-top:10px;line-height:1.25;}
+.screenband figcaption p b{color:var(--blue);}
+@media(max-width:900px){.screenband figcaption{padding:20px;}}
+
+/* démo — invitation */
+.demoask{border:1px solid var(--line);border-radius:20px;padding:46px 44px;
+  background:radial-gradient(130% 150% at 100% 0%,rgba(0,82,255,0.14),transparent 58%);
+  display:flex;align-items:center;justify-content:space-between;gap:34px;flex-wrap:wrap;}
+.demoask .dtxt{max-width:60ch;}
+.demoask h3{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:-0.02em;line-height:1.08;}
+.demoask p{font-size:16px;font-weight:300;line-height:1.55;color:rgba(255,255,255,0.72);margin-top:14px;}
+.demoask .btn{white-space:nowrap;}
+@media(max-width:900px){.demoask{padding:32px 24px;}}
+
+/* ===== SECTIONS CLAIRES — rythme noir/blanc (inspiré du deck) ===== */
+.sec.light{position:relative;}
+.sec.light::before{content:"";position:absolute;top:0;bottom:0;left:50%;margin-left:-50vw;width:100vw;
+  background:#EFEEE9;z-index:0;}
+.sec.light > *:not([popover]){position:relative;z-index:1;}
+.sec.light .sec-h{color:var(--ink);}
+.sec.light .sec-h em{color:var(--blue);}
+.sec.light .sec-p{color:#57554e;}
+.sec.light .sec-p b{color:var(--ink);}
+.sec.light .aud-hint{color:var(--ink);}
+.sec.light .audbtn{border-color:rgba(0,0,0,0.16);color:var(--ink);}
+.sec.light .audbtn:hover{border-color:var(--blue);background:rgba(0,82,255,0.07);}
+.sec.light .aud-band{border-color:rgba(0,0,0,0.10);}
+.sec.light .pills .pill{border-color:rgba(0,0,0,0.18);color:#3a3a3a;}
+.sec.light .pills .pill strong{color:var(--blue);}
+.sec.light .morebtn{color:var(--blue);background:rgba(0,82,255,0.08);}
+.sec.light .morebtn:hover{background:var(--blue);color:#fff;}
+
+/* ACTUALISATION — la différence (cartes, une en bleu plein) */
+.actucards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;}
+.acard{border:1px solid rgba(0,0,0,0.10);border-radius:18px;padding:28px 26px;background:#fff;}
+.acard .an{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);}
+.acard h4{font-size:19px;font-weight:700;margin:10px 0 10px;color:var(--ink);letter-spacing:-0.01em;}
+.acard p{font-size:14.5px;font-weight:300;line-height:1.55;color:#57554e;}
+.acard.blue{background:var(--blue);border-color:var(--blue);}
+.acard.blue .an{color:#cfe0ff;}
+.acard.blue h4,.acard.blue p{color:#fff;}
+.actu-note{margin-top:26px;display:inline-flex;align-items:baseline;gap:12px;padding:16px 22px;
+  border:1px solid rgba(0,0,0,0.12);border-radius:14px;background:#fff;}
+.actu-note b{font-size:30px;font-weight:800;color:var(--blue);letter-spacing:-0.02em;}
+.actu-note span{font-size:14px;color:#57554e;}
+@media(max-width:900px){.actucards{grid-template-columns:1fr;}}
+
+@media(max-width:900px){
+  .pop-grid,.pop-disc{grid-template-columns:1fr;}
+  .pslim{padding:50px 20px;}
+}
 </style>
 </head>
 <body>
@@ -213,10 +476,10 @@ footer a:hover{color:#fff;}
     <span>Drone06</span>
   </a>
   <ul class="nlinks">
-    <li><a href="#usages">Usages</a></li>
-    <li><a href="#methode">Méthode</a></li>
-    <li><a href="#formats">Formats</a></li>
-    <li><a href="#disciplines">Disciplines</a></li>
+    <li><a href="#comment">Le jumeau</a></li>
+    <li><a href="#actualisation">Actualisation</a></li>
+    <li><a href="#livrables">Formules</a></li>
+    <li><a href="#application">Application</a></li>
   </ul>
   <div class="nright">
     <a href="https://drone-06.com" class="nback">Retour au site</a>
@@ -225,10 +488,10 @@ footer a:hover{color:#fff;}
   </div>
 </nav>
 <div class="nmob">
-  <a href="#usages">Usages</a>
-  <a href="#methode">Méthode</a>
-  <a href="#formats">Formats</a>
-  <a href="#disciplines">Disciplines</a>
+  <a href="#comment">Le jumeau</a>
+  <a href="#actualisation">Actualisation</a>
+  <a href="#livrables">Formules</a>
+  <a href="#application">Application</a>
   <a href="https://drone-06.com">← Retour au site</a>
   <a href="mailto:contact@drone-06.com" class="mc">Discuter d'un projet →</a>
 </div>
@@ -236,7 +499,7 @@ footer a:hover{color:#fff;}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="https://dl.dropboxusercontent.com/scl/fi/pgf7rto27lokkyu3r9t5a/NICE-FULL.jpg?rlkey=x91q5d63ghc3n1edvs49q4xo5&raw=1" alt="Jumeau numérique 3D par drone — Nice Côte d'Azur">
+    <img src="media-photogram/hero-nice.jpg" alt="Vue aérienne de Nice par drone — colline du Château, baie des Anges et vieille ville">
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -255,145 +518,311 @@ footer a:hover{color:#fff;}
   <div class="kpi"><div class="kpi-n">RTK</div><div class="kpi-l">Acquisition certifiée</div></div>
   <div class="kpi"><div class="kpi-n">9</div><div class="kpi-l">Disciplines géospatiales</div></div>
   <div class="kpi"><div class="kpi-n">4</div><div class="kpi-l">Formats de livraison</div></div>
-  <div class="kpi"><div class="kpi-n">cm</div><div class="kpi-l">Précision centimétrique</div></div>
+  <div class="kpi"><div class="kpi-n"><b>1,5</b> cm</div><div class="kpi-l">Résolution au sol (GSD)</div></div>
 </div>
 
-<!-- INTRO -->
+<!-- INTRO — c'est quoi un jumeau numérique -->
 <section class="sec">
-  <span class="label">Jumeau numérique & photogrammétrie</span>
-  <h2 class="sec-h">Le jumeau numérique<br>n'est pas <em>une carte.</em></h2>
-  <p class="sec-p">Le jumeau numérique est une réplique exacte d'un site, capturée par drone, géoréférencée au centimètre, restituée en trois dimensions. Drone06 conçoit des jumeaux numériques sur mesure — d'un ouvrage d'art à un site industriel, d'un quartier urbain à un domaine privé. Quelle que soit l'échelle, la même exigence : une donnée mesurable, navigable, exploitable.</p>
+  <span class="label">C'est quoi un jumeau numérique&nbsp;?</span>
+  <h2 class="sec-h">Une copie 3D exacte<br>de votre <em>site.</em></h2>
+  <p class="sec-p">Un jumeau numérique, c'est la <b>réplique exacte d'un site</b>, <b>capturée par drone</b> et reconstruite en 3D, géoréférencée au centimètre. Le résultat : des <b>données mesurables, navigables, exploitables</b> — d'un ouvrage d'art à un quartier entier.</p>
+
+  <div class="illus">
+    <svg viewBox="0 0 1000 250" role="img" aria-label="Un drone survole une ville reconstruite en fil de fer et en nuage de points.">
+      <style>
+        .bl{fill:none;stroke:#3D82FF;stroke-width:1.4}
+        .bf{fill:none;stroke:#2F4A7A;stroke-width:1}
+        .bfill{fill:rgba(61,130,255,0.05)}
+        .sc{stroke:#34E0E0;stroke-width:0.9;stroke-opacity:0.45;stroke-dasharray:3 6}
+        .lab{font-family:'Manrope',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em}
+      </style>
+      <!-- sol -->
+      <line x1="40" y1="210" x2="960" y2="210" stroke="#33436b" stroke-width="1.2"/>
+      <!-- immeubles fil de fer (extrusion) -->
+      <!-- b1 -->
+      <polygon class="bfill" points="120,150 120,210 176,210 176,150"/>
+      <path class="bl" d="M120 150h56v60h-56z"/><path class="bf" d="M120 150l14-9h56l-14 9M176 150l14-9v60l-14 9"/><path class="bf" d="M138 150v60M157 150v60"/>
+      <!-- b2 (haut) -->
+      <polygon class="bfill" points="200,110 200,210 246,210 246,110"/>
+      <path class="bl" d="M200 110h46v100h-46z"/><path class="bf" d="M200 110l14-9h46l-14 9M246 110l14-9v100l-14 9"/><path class="bf" d="M223 110v100M200 145h46M200 178h46"/>
+      <!-- b3 -->
+      <polygon class="bfill" points="270,168 270,210 344,210 344,168"/>
+      <path class="bl" d="M270 168h74v42h-74z"/><path class="bf" d="M270 168l14-9h74l-14 9M344 168l14-9v42l-14 9"/><path class="bf" d="M307 168v42"/>
+      <!-- b4 (grande, sous le drone) -->
+      <polygon class="bfill" points="430,90 430,210 512,210 512,90"/>
+      <path class="bl" d="M430 90h82v120h-82z"/><path class="bf" d="M430 90l16-11h82l-16 11M512 90l16-11v120l-16 11"/><path class="bf" d="M457 90v120M485 90v120M430 130h82M430 168h82"/>
+      <!-- b5 -->
+      <polygon class="bfill" points="540,150 540,210 604,210 604,150"/>
+      <path class="bl" d="M540 150h64v60h-64z"/><path class="bf" d="M540 150l14-9h64l-14 9M604 150l14-9v60l-14 9"/><path class="bf" d="M572 150v60"/>
+      <!-- b6 (haut) -->
+      <polygon class="bfill" points="630,120 630,210 690,210 690,120"/>
+      <path class="bl" d="M630 120h60v90h-60z"/><path class="bf" d="M630 120l14-9h60l-14 9M690 120l14-9v90l-14 9"/><path class="bf" d="M660 120v90M630 155h60M630 185h60"/>
+      <!-- b7 -->
+      <polygon class="bfill" points="720,160 720,210 800,210 800,160"/>
+      <path class="bl" d="M720 160h80v50h-80z"/><path class="bf" d="M720 160l14-9h80l-14 9M800 160l14-9v50l-14 9"/><path class="bf" d="M760 160v50"/>
+      <!-- nuage de points -->
+      <g fill="#34E0E0" fill-opacity="0.7">
+        <circle cx="150" cy="146" r="1.1"/><circle cx="225" cy="106" r="1.1"/><circle cx="308" cy="164" r="1.1"/>
+        <circle cx="471" cy="86" r="1.2"/><circle cx="572" cy="146" r="1.1"/><circle cx="660" cy="116" r="1.1"/>
+        <circle cx="760" cy="156" r="1.1"/><circle cx="400" cy="205" r="1"/><circle cx="512" cy="120" r="1"/><circle cx="345" cy="200" r="1"/>
+      </g>
+      <!-- cône de scan -->
+      <path d="M500 44L400 208L600 208Z" fill="#34E0E0" fill-opacity="0.05"/>
+      <path class="sc" d="M500 44L430 208M500 44L500 208M500 44L570 208"/>
+      <!-- drone -->
+      <g stroke="#EAF0FB" stroke-width="1.5" fill="none">
+        <path d="M482 40L466 32M518 40L534 32"/>
+        <rect x="484" y="36" width="32" height="11" rx="3"/>
+      </g>
+      <ellipse cx="466" cy="30" rx="14" ry="2.6" fill="none" stroke="#3D82FF" stroke-width="1.3"/>
+      <ellipse cx="534" cy="30" rx="14" ry="2.6" fill="none" stroke="#3D82FF" stroke-width="1.3"/>
+      <path d="M494 47L500 54L506 47Z" fill="#EAF0FB"/><circle cx="500" cy="52" r="1.7" fill="#34E0E0"/>
+      <text class="lab" x="500" y="20" text-anchor="middle" fill="#34E0E0">DRONE · CAPTATION RTK</text>
+      <text class="lab" x="120" y="234" fill="#8C9AB4">VILLE RECONSTRUITE — NUAGE DE POINTS MESURABLE</text>
+    </svg>
+  </div>
 </section>
 
-<!-- BAND — animation cartographique -->
-<div class="band">
-  <img src="https://dl.dropboxusercontent.com/scl/fi/xdefv5eye4v7vvi1nx3ne/carto.gif?rlkey=2kuxbsbh3vhhb0976xxe698jb&raw=1" alt="Jumeau numérique — animation cartographique 3D" loading="lazy" decoding="async">
-</div>
+<!-- COMMENT ÇA MARCHE -->
+<section class="sec" id="comment">
+  <span class="label">Comment ça marche</span>
+  <h2 class="sec-h">Le drone photographie.<br>La donnée se <em>reconstruit.</em></h2>
+  <p class="sec-p">Aucun contact, aucune approche risquée : le drone survole le site à hauteur réglementaire et le photographie sous tous les angles. Le modèle 3D est calculé <em>ensuite</em>, intégralement à partir des images.</p>
+  <div class="how">
+    <div class="how-steps">
+      <div class="hstep">
+        <div class="hn">Étape 01 — Survol</div>
+        <h4>Captation à hauteur réglementaire</h4>
+        <p>Vol photogrammétrique RTK, plan de vol croisé, recouvrement 80 % / 80 %. Le drone reste à distance de sécurité des ouvrages.</p>
+        <div class="hm">Position drone certifiée <b>RTK</b> — géoréférencement en temps réel.</div>
+      </div>
+      <div class="hstep">
+        <div class="hn">Étape 02 — Reconstruction</div>
+        <h4>Un modèle 3D calculé depuis les photos</h4>
+        <p>Des milliers d'images géoréférencées fusionnées en une réplique 3D exacte du site — navigable, mesurable, exportable.</p>
+        <div class="hm">Résolution du modèle : <b>1,5 cm / pixel</b>.</div>
+      </div>
+    </div>
+    <figure class="how-media">
+      <span class="tagr">En vol · Nice</span>
+      <img src="media-photogram/comment-photogrammetrie.jpg" alt="Captation photogrammétrique en vol au-dessus de Nice — vue depuis la radiocommande du drone" loading="lazy" decoding="async">
+      <figcaption>En vol au-dessus de Nice — l'ouvrage photographié sous tous les angles. La donnée 3D se reconstruit ensuite.</figcaption>
+    </figure>
+  </div>
+</section>
 
-<!-- USAGES -->
+<!-- ACTUALISATION — notre différence -->
+<section class="sec light" id="actualisation">
+  <span class="label">Notre différence</span>
+  <h2 class="sec-h">Le terrain d'aujourd'hui,<br>pas une <em>archive.</em></h2>
+  <p class="sec-p">Un fichier 3D fige un instant. Notre vraie force, c'est de livrer une représentation <b>récente</b> — et de la <b>réactualiser</b>. En quelques mois, une ville bouge : travaux, voirie, mobilier urbain, végétation, usages du périmètre. Vous décidez sur le terrain tel qu'il est, pas tel qu'il était.</p>
+  <div class="actucards">
+    <div class="acard">
+      <div class="an">01 — État actuel</div>
+      <h4>Voir le présent</h4>
+      <p>Le terrain tel qu'il est aujourd'hui — une lecture du présent, pas d'une archive ni d'un plan ancien.</p>
+    </div>
+    <div class="acard">
+      <div class="an">02 — Base commune</div>
+      <h4>Une seule lecture partagée</h4>
+      <p>Tous les services réunis autour de la même donnée, au même niveau de précision. Pas six lectures parallèles.</p>
+    </div>
+    <div class="acard blue">
+      <div class="an">03 — Décision</div>
+      <h4>Décider plus vite</h4>
+      <p>Périmètre, accès, flux, zones techniques : arbitrages accélérés, validation collective.</p>
+    </div>
+  </div>
+  <div class="actu-note"><b>~4 mois</b><span>suffisent, dans une ville active, pour créer un décalage opérationnel. On réactualise avant qu'il ne compte.</span></div>
+</section>
+
+<!-- USAGES — pour qui -->
 <section class="sec" id="usages">
-  <span class="label">Une donnée, tous les usages</span>
-  <h2 class="sec-h">Visible, mesurable,<br><em>exportable.</em></h2>
-  <p class="sec-p">Un environnement complet dans lequel chaque élément — bâtiment, voirie, mobilier, végétation — est visible, mesurable, exportable.</p>
-  <div class="usages">
-    <div class="ucard">
-      <div class="unum">→ 01 / Public</div>
-      <div class="utitle">Services techniques</div>
-      <p class="udesc">Planifier un aménagement, simuler un chantier, contrôler la conformité du bâti.</p>
-    </div>
-    <div class="ucard">
-      <div class="unum">→ 02 / Réseaux</div>
-      <div class="utitle">Opérateurs réseaux</div>
-      <p class="udesc">Poser une antenne, tracer un câble, calculer un volume sans déplacement terrain.</p>
-    </div>
-    <div class="ucard">
-      <div class="unum">→ 03 / Conception</div>
-      <div class="utitle">Urbanistes & architectes</div>
-      <p class="udesc">Modéliser une ombre portée, étudier une densité, projeter une transformation.</p>
-    </div>
-    <div class="ucard">
-      <div class="unum">→ 04 / Risque</div>
-      <div class="utitle">Assureurs & experts</div>
-      <p class="udesc">Qualifier un risque, dater un état des lieux, documenter un sinistre.</p>
-    </div>
+  <span class="label">Pour qui&nbsp;?</span>
+  <h2 class="sec-h">À qui ça <em>parle.</em></h2>
+  <p class="sec-p">Une même donnée, des métiers très différents — chacun y lit ce qui le concerne.</p>
+  <div class="roles">
+    <div class="role"><span class="rn">01</span><div class="rt"><h3>Services techniques</h3><p>Contrôler le bâti et sa conformité, sans se déplacer.</p></div></div>
+    <div class="role"><span class="rn">02</span><div class="rt"><h3>Opérateurs réseaux</h3><p>Poser une antenne, tracer un câble, mesurer une emprise.</p></div></div>
+    <div class="role"><span class="rn">03</span><div class="rt"><h3>Urbanistes</h3><p>Étudier une densité, simuler une ombre portée, projeter.</p></div></div>
+    <div class="role"><span class="rn">04</span><div class="rt"><h3>Architectes</h3><p>Un fond de projet 3D exact : volumétrie, coupes, façades.</p></div></div>
+    <div class="role"><span class="rn">05</span><div class="rt"><h3>Assureurs &amp; experts</h3><p>Qualifier un risque, dater un état des lieux, prouver un sinistre.</p></div></div>
+  </div>
+
+  <div class="audpair">
+    <figure>
+      <img src="media-photogram/terrain-technicien.jpg" alt="Technicien exploitant la donnée sur le terrain, ordinateur en main" loading="lazy" decoding="async">
+      <figcaption><b>Sur le terrain</b> — la donnée exploitée directement</figcaption>
+    </figure>
+    <figure>
+      <img src="media-photogram/lidar-terra.jpg" alt="Relevé LiDAR par drone — nuage de points sur relief et végétation" loading="lazy" decoding="async">
+      <figcaption><b>LiDAR</b> — relief, végétation, sols sous couvert</figcaption>
+    </figure>
+    <figure>
+      <img src="media-photogram/photogram-nice.jpg" alt="Modèle photogrammétrique 3D de Nice — route côtière et façades, texturé au centimètre" loading="lazy" decoding="async">
+      <figcaption><b>Photogrammétrie</b> — bâti &amp; ville au centimètre</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- BAND — nuage de points -->
-<div class="band">
-  <img src="https://dl.dropboxusercontent.com/scl/fi/w3epi835uf6poum8wuz5t/nuage-de-points.jpg?rlkey=rrx8uug09elrl9jgxja0up5n1&raw=1" alt="Nuage de points 3D géoréférencé — détail urbain" loading="lazy" decoding="async">
-</div>
-<p class="band-cap">Au cœur du jumeau, un nuage de points 3D géoréférencé — la donnée brute dont se déduisent maillage, mesures, volumes et coupes.</p>
-
-<!-- MÉTHODE -->
-<section class="sec" id="methode">
-  <span class="label">La méthode</span>
-  <h2 class="sec-h">De l'acquisition<br>à la <em>livraison.</em></h2>
-
-  <div class="sub-label">→ Processus</div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01 / Acquisition</div>
-      <div class="step-text">Vol photogrammétrique RTK certifié — plan de vol croisé, recouvrement 80 % / 80 %.</div>
+<!-- LIVRABLES A/B/C -->
+<section class="sec" id="livrables">
+  <span class="label">Ce que vous recevez — au choix</span>
+  <h2 class="sec-h">Une donnée,<br>trois <em>formules.</em></h2>
+  <p class="sec-p lsub">Du simple lien à partager jusqu'au jeu de données complet sur disque : à vous de choisir votre niveau d'autonomie.</p>
+  <div class="livrables">
+    <div class="lcard lA">
+      <div class="lribbon">Formule A</div>
+      <div class="ll">A</div>
+      <h4>Le visualisateur en ligne</h4>
+      <p>Un lien à partager. Vos équipes explorent en 3D dans le navigateur, mesurent, annotent. Zéro logiciel à installer.</p>
+      <div class="lfmt">Viewer Cesium · portail web privé · scènes &amp; captures</div>
     </div>
-    <div class="step">
-      <div class="step-num">02 / Calcul</div>
-      <div class="step-text">Photogrammétrie haute densité — plusieurs centaines de millions de points colorimétriques.</div>
+    <div class="lcard lB">
+      <div class="lribbon">Formule B</div>
+      <div class="ll">B</div>
+      <h4>Les données exploitables</h4>
+      <p>Les formats standards, prêts pour vos outils. Une couche de plus dans votre SIG, votre BIM, votre jumeau.</p>
+      <div class="lfmt">Nuage LAS/LAZ · Ortho GeoTIFF · MNT/MNS · Mesh OBJ · 3D Tiles · GeoJSON/SHP</div>
     </div>
-    <div class="step">
-      <div class="step-num">03 / Livraison</div>
-      <div class="step-text">Restitution multi-format adaptée à chaque environnement client.</div>
+    <div class="lcard lC">
+      <div class="lribbon">Formule C</div>
+      <div class="ll">C</div>
+      <h4>Le jeu de données complet</h4>
+      <p>Toute la campagne sur disque. Vous êtes autonome pour retraiter, archiver, auditer.</p>
+      <div class="lfmt">Images brutes · logs RTK/PPK · projet de traitement · rapports qualité</div>
     </div>
   </div>
+  <p class="trust"><b>Confidentiel par construction</b> — usage exclusif, périmètre contractualisé, aucune redistribution.</p>
+</section>
 
+<!-- PRÉCISION (bandeau slim) -->
+<div class="pslim" id="precision">
   <div class="precision">
-    <div class="precision-stat">x,x<sup>cm</sup></div>
+    <div class="precision-stat">1,5<sup>cm/px</sup></div>
     <div>
-      <div class="precision-label">Précision absolue X / Y / Z</div>
-      <p class="precision-text">Précision certifiée par mesure RTK et points de contrôle au sol — valeur confidentielle, communiquée sur demande dans le cadre d'un projet.</p>
+      <div class="precision-label">Résolution au sol (GSD)</div>
+      <p class="precision-text">Modèle restitué à 1,5 cm par pixel. La précision <em>absolue</em> X / Y / Z — certifiée RTK et points de contrôle au sol — est communiquée sur demande, dans le cadre d'un projet.</p>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FORMATS -->
-<section class="sec" id="formats">
-  <span class="label">Formats de restitution</span>
+<!-- BANDE ÉGLISE — inspection au centimètre -->
+<figure class="screenband">
+  <img src="media-photogram/eglise-pano.jpg" alt="Toiture d'une église relevée par drone en photogrammétrie — vue zénithale au centimètre" loading="lazy" decoding="async">
+  <figcaption>
+    <div class="sk">Inspection par drone</div>
+    <p>Chaque tuile relevée — l'ouvrage inspecté <b>au centimètre</b>, sans échafaudage ni nacelle.</p>
+  </figcaption>
+</figure>
+
+<!-- EXPLOITABLE / INTÉGRATION (compact) -->
+<section class="sec light" id="formats">
+  <span class="label">Intégration</span>
   <h2 class="sec-h">Exploitable<br>dans <em>vos outils.</em></h2>
-  <div class="formats">
-    <div class="fmt"><div class="fmt-ext">3D Tiles</div><div class="fmt-name">Streamable web</div><div class="fmt-use">Cesium · ArcGIS · QGIS</div></div>
-    <div class="fmt"><div class="fmt-ext">.LAS / .PLY</div><div class="fmt-name">Nuage de points</div><div class="fmt-use">Donnée brute 3D</div></div>
-    <div class="fmt"><div class="fmt-ext">.OBJ</div><div class="fmt-name">Maillage texturé</div><div class="fmt-use">3D modélisable</div></div>
-    <div class="fmt"><div class="fmt-ext">.TIF</div><div class="fmt-name">Orthophoto</div><div class="fmt-use">Géoréférencée</div></div>
+  <p class="sec-p">Aux formats ouverts de l'industrie, nos livrables s'ajoutent comme une <b>couche de plus</b> dans vos plateformes — vous ne changez pas d'outil, vous gagnez une vérité terrain mesurée.</p>
+  <div class="pills" style="margin-top:26px;">
+    <div class="pill">BIM</div>
+    <div class="pill">QGIS / ArcGIS</div>
+    <div class="pill">AutoCAD / Revit</div>
+    <div class="pill">Cesium</div>
   </div>
-  <div class="sub-label">→ Référentiels disponibles</div>
-  <div class="pills">
-    <div class="pill"><strong>FR</strong>RGF93 / Lambert-93</div>
-    <div class="pill"><strong>FR</strong>NGF-IGN69</div>
-    <div class="pill"><strong>INT</strong>WGS84 / UTM</div>
+  <button class="morebtn" popovertarget="pop-formats">Voir les formats &amp; référentiels</button>
+
+  <div popover id="pop-formats" class="pop-wide">
+    <div class="pop-k">Formats de restitution</div>
+    <div class="pop-t">Livré dans vos formats</div>
+    <div class="pop-grid">
+      <div class="pop-cell"><div class="pe">3D Tiles</div><div class="pn">Streamable web</div><div class="pu">Cesium · ArcGIS · QGIS</div></div>
+      <div class="pop-cell"><div class="pe">.LAS / .PLY</div><div class="pn">Nuage de points</div><div class="pu">Donnée brute 3D</div></div>
+      <div class="pop-cell"><div class="pe">.OBJ</div><div class="pn">Maillage texturé</div><div class="pu">3D modélisable</div></div>
+      <div class="pop-cell"><div class="pe">.TIF</div><div class="pn">Orthophoto</div><div class="pu">Géoréférencée</div></div>
+    </div>
+    <div class="pop-refs">
+      <div class="pill"><strong>FR</strong>RGF93 / Lambert-93</div>
+      <div class="pill"><strong>FR</strong>NGF-IGN69</div>
+      <div class="pill"><strong>INT</strong>WGS84 / UTM</div>
+    </div>
+    <div><button class="pop-close" popovertarget="pop-formats" popovertargetaction="hide">Fermer</button></div>
   </div>
 </section>
 
-<!-- DISCIPLINES -->
-<section class="sec" id="disciplines">
+<!-- BANDE NUAGE DE POINTS (entre chapitres) -->
+<figure class="screenband">
+  <img src="media-photogram/nuage-nice.jpg" alt="Nuage de points 3D géoréférencé de Nice — front de mer" loading="lazy" decoding="async">
+  <figcaption>
+    <div class="sk">Donnée brute</div>
+    <p>Un nuage de points 3D géoréférencé — <b>la matière première</b> derrière chaque livrable.</p>
+  </figcaption>
+</figure>
+
+<!-- DISCIPLINES (compact + pop-up) -->
+<section class="sec light" id="disciplines">
   <span class="label">Nos disciplines géospatiales</span>
   <h2 class="sec-h">Neuf disciplines,<br>un seul <em>relevé.</em></h2>
-  <p class="sec-p">De l'acquisition brute jusqu'au plan technique normé, exportable dans tous les formats standards.</p>
-  <div class="disc">
-    <div>Modèle Numérique de Terrain (MNT)</div>
-    <div>Modèle Numérique de Surface (MNS)</div>
-    <div>Plan topographique</div>
-    <div>Orthomosaïque</div>
-    <div>Rapport d'extraction</div>
-    <div>Rapport de cubatures</div>
-    <div>Nuage de points</div>
-    <div>Profil en travers</div>
-    <div>Relevé LIDAR par drone</div>
+  <p class="sec-p">D'un même vol, nous produisons tous les livrables techniques normés — de l'acquisition brute au plan exploitable.</p>
+  <button class="morebtn" popovertarget="pop-disc">Voir les 9 disciplines</button>
+
+  <div popover id="pop-disc" class="pop-wide">
+    <div class="pop-k">Un seul relevé</div>
+    <div class="pop-t">Neuf disciplines géospatiales</div>
+    <ul class="pop-disc">
+      <li>Modèle Numérique de Terrain (MNT)</li>
+      <li>Modèle Numérique de Surface (MNS)</li>
+      <li>Plan topographique</li>
+      <li>Orthomosaïque</li>
+      <li>Rapport d'extraction</li>
+      <li>Rapport de cubatures</li>
+      <li>Nuage de points</li>
+      <li>Profil en travers</li>
+      <li>Relevé LIDAR par drone</li>
+    </ul>
+    <div><button class="pop-close" popovertarget="pop-disc" popovertargetaction="hide">Fermer</button></div>
   </div>
 </section>
 
-<!-- CONFIDENTIALITÉ -->
+<!-- DÉMO — sur demande -->
 <section class="sec">
-  <span class="label">Confidentiel par construction</span>
-  <h2 class="sec-h">Deux modèles<br>d'<em>accès.</em></h2>
-  <p class="sec-p">Selon la nature du projet, deux modèles d'accès — toujours sous principe d'usage exclusif, jamais de redistribution.</p>
-  <div class="models">
-    <div class="model">
-      <div class="model-tag">Modèle 01</div>
-      <div class="model-title">Hébergement Drone06</div>
-      <p class="model-desc">La donnée reste sur notre infrastructure centralisée, accès tokenisé par client. Le client consulte et exploite via ses propres outils SIG.</p>
+  <div class="demoask">
+    <div class="dtxt">
+      <span class="label" style="margin-bottom:14px;">Démonstration</span>
+      <h3>Explorez un centre-ville entier, en 3D.</h3>
+      <p>Nos jumeaux haute résolution ne sont pas en accès libre : chaque démo s'ouvre au cas par cas. Dites-nous votre territoire — on vous confie un lien privé pour naviguer, mesurer, et juger sur pièce.</p>
     </div>
-    <div class="model">
-      <div class="model-tag">Modèle 02</div>
-      <div class="model-title">Droit d'usage exclusif</div>
-      <p class="model-desc">La donnée est livrée intégralement au client, sous droit d'usage encadré — périmètre d'exploitation contractualisé, aucune redistribution.</p>
-    </div>
+    <a class="btn btn-blue btn-lg" href="mailto:contact@drone-06.com?subject=Demande%20de%20d%C3%A9mo%20jumeau%20num%C3%A9rique">Demander une démo →</a>
   </div>
+</section>
+
+<!-- APPLICATION — de la donnée à l'image -->
+<section class="appwrap" id="application">
+  <div class="app-head">
+    <span class="label">Application</span>
+    <h2 class="sec-h">De la donnée<br>à l'<em>image.</em></h2>
+    <p class="sec-p">Un jumeau numérique n'est pas qu'un outil technique. La même donnée photogrammétrique sert à construire et simuler des environnements 3D — repérage, étude d'implantation — et à porter une ville à l'image : films, promotion territoriale. Personne, aujourd'hui, ne survole légalement une ville avec cet œil-là.</p>
+  </div>
+  <figure class="film revealwrap" id="revealfilm">
+    <div class="rv-grid"></div>
+    <img class="rv-wire" src="media-photogram/wireframe-nice.png" alt="" aria-hidden="true">
+    <div class="rv-scan"></div>
+    <video class="rv-video" muted playsinline preload="auto" poster="media-photogram/fpv-nice-poster.jpg">
+      <source src="media-photogram/fpv-nice.mp4" type="video/mp4">
+    </video>
+    <figcaption class="film-cap">
+      <div class="fk">Exploitation créative · Nice</div>
+      <h3>De la donnée au film</h3>
+      <p>Le tracé se construit, la ville se révèle, le survol démarre — issu de nos données de Nice. Un usage narratif, distinct des livrables de mesure.</p>
+    </figcaption>
+  </figure>
 </section>
 
 <!-- CTA -->
 <section class="cta">
   <h2 class="cta-h">Discuter d'un <em>projet.</em></h2>
-  <a href="mailto:contact@drone-06.com" class="btn btn-blue btn-lg">contact@drone-06.com</a>
+  <p class="sec-p" style="margin:0 auto 30px;text-align:center;">20 minutes suffisent pour identifier un premier site et vous montrer ce que le jumeau apporterait à vos équipes.</p>
+  <div class="hero-btns" style="justify-content:center;">
+    <a href="mailto:contact@drone-06.com" class="btn btn-blue btn-lg">contact@drone-06.com</a>
+    <a href="tel:+33662050169" class="btn btn-out btn-lg">06 62 05 01 69</a>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -402,5 +831,35 @@ footer a:hover{color:#fff;}
   <div class="fcredit">© 2026 Drone06 — Acquisition géospatiale · Nice, Côte d'Azur</div>
 </footer>
 
+<script>
+(function(){
+  var rf=document.getElementById('revealfilm');
+  if(!rf) return;
+  var vid=rf.querySelector('.rv-video');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var DRAW=3600, HOLD=500, t=null;
+  function toVideo(){
+    rf.classList.add('go2');
+    if(vid){ try{vid.currentTime=0;}catch(e){} vid.play&&vid.play().catch(function(){}); }
+  }
+  function cycle(){
+    if(t) clearTimeout(t);
+    rf.classList.remove('go','go2');
+    void rf.offsetWidth;              // relance l'animation CSS
+    if(reduce){ toVideo(); return; }  // pas d'anim si mouvement réduit
+    rf.classList.add('go');           // le fil de fer se dessine
+    t=setTimeout(toVideo, DRAW+HOLD); // puis fondu vers la vidéo
+  }
+  if(vid){ vid.addEventListener('ended', cycle); } // à chaque fin de vidéo -> on rejoue le reveal
+  var started=false;
+  function start(){ if(started) return; started=true; cycle(); }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ start(); io.unobserve(rf); } });
+    },{threshold:.35});
+    io.observe(rf);
+  } else { start(); }
+})();
+</script>
 </body>
 </html>
